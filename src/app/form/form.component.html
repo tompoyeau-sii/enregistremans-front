@@ -1,0 +1,47 @@
+<form class="ma-5 border-1 surface-border flex gap-2 border-round" [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <h3>Vous</h3>
+    <div class="formgrid grid flex w-full gap-2 p-4 flex-row">
+        <div class="field col-4">
+            <span class="p-float-label">
+                <input pInputText id="firstName" formControlName="firstName" />
+                <label htmlFor="username">Prénom</label>
+            </span>
+        </div>
+        <div class="field col-4 ">
+            <span class="p-float-label">
+                <input pInputText id="lastName" formControlName="lastName" />
+                <label htmlFor="lastName">Nom</label>
+            </span>
+        </div>
+        <div class="field col-4">
+            <span class="p-float-label">
+                <input pInputText id="email" formControlName="email" />
+                <label htmlFor="email">Email</label>
+            </span>
+        </div>
+
+        <div class="field col-4">
+            <span class="p-float-label">
+                <p-inputMask mask="99 99 99 99 99" id="phone" formControlName="phone"
+                    placeholder="téléphone"></p-inputMask>
+                <label htmlFor="number-input">N° de téléphone</label>
+            </span>
+        </div>
+        <div class="field col-4">
+            <span class="p-float-label">
+                <input pInputText id="organisation" formControlName="organisation" />
+                <label htmlFor="email">Organisation</label>
+            </span>
+        </div>
+    </div>
+
+    <h3>Votre correspondant</h3>
+    <div class="formgrid grid flex w-full gap-2 p-4 flex-row">
+        <div class="field col-4">
+            <span class="p-float-label"> 
+                <p-dropdown placeholder="Correspondant" id="organisation" formControlName="organisation" optionLabel="correspondant" inputId="float-label"></p-dropdown>
+                <label for="float-label">Correspondant</label>
+            </span>
+        </div>
+    </div>
+</form>
