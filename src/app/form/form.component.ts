@@ -15,7 +15,6 @@ export class FormComponent {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      // Ajoutez d'autres champs ici
     });
   }
 
