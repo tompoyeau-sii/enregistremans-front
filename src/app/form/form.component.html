@@ -1,26 +1,25 @@
 <form
-    class="bg-green-100 shadow-6 border-1 col-12 md:col-10 md:col-offset-1 lg:col-10 lg:col-offset-1 xl:col-8 xl:col-offset-2 border-round p-4"
+    class="bg-blue-100 shadow-6 border-1 col-12 md:col-10 md:col-offset-1 lg:col-10 lg:col-offset-1 xl:col-8 xl:col-offset-2 border-round p-4"
     [formGroup]="userForm" (ngSubmit)="onSubmit()">
     <h1> Formulaire d'accueil </h1>
     <h3>Visiteur</h3>
     <div class="formgrid grid">
         <div class="field col-12 md:col-6">
-            <input placeholder="Prénom" pInputText id="firstName" formControlName="firstName" />
+            <input placeholder="Prénom*" pInputText id="firstName" formControlName="firstName" />
         </div>
         <div class="field col-12 md:col-6">
-            <input pInputText placeholder="Nom" id="lastName" formControlName="lastName" />
+            <input pInputText placeholder="Nom*" id="lastName" formControlName="lastName" />
         </div>
     </div>
     <div class="formgrid grid">
         <div class="field col-12 md:col-6">
-            <input pInputText placeholder="Email" id="email" formControlName="email" />
+            <input pInputText placeholder="Email*" id="email" formControlName="email" />
         </div>
         <div class="field col-12 md:col-6">
-            <p-inputMask mask="99 99 99 99 99" id="phone" placeholder="Téléphone" formControlName="phone"
-                placeholder="Téléphone"></p-inputMask>
+            <p-inputMask mask="99 99 99 99 99" id="phone" formControlName="phone" placeholder="Téléphone"></p-inputMask>
         </div>
         <div class="field col-12 md:col-6">
-            <input pInputText id="organisation" placeholder="Organisation" formControlName="organisation" />
+            <input pInputText id="company" placeholder="Organisation*" formControlName="company" />
         </div>
     </div>
 
@@ -28,16 +27,15 @@
     <div class="formgrid grid">
 
         <div class="field col-12 md:col-6">
-            <p-dropdown [options]="managers" placeholder="Correspondant" id="correspondant"
-                formControlName="correspondant" optionLabel="name" inputId="float-label"></p-dropdown>
+            <p-dropdown [options]="managers" placeholder="Correspondant*" id="manager" formControlName="manager"
+                optionLabel="name" inputId="float-label"></p-dropdown>
         </div>
         <div class="field col-12 md:col-6">
-            <p-dropdown placeholder="Motif de visite" id="motif" formControlName="motif" optionLabel="motif"
-                inputId="float-label"></p-dropdown>
+            <p-dropdown [options]="reasons" optionLabel="label" placeholder="Motif de visite*" id="reason" formControlName="reason"></p-dropdown>
         </div>
         <div class="field col-12 md:col-6">
-            <p-calendar placeholder="Heure d'arrivé" optionLabel="startDate" inputId="float-label" id="startDate"
-                formControlName="startDate" [showTime]="true"></p-calendar>
+            <p-calendar placeholder="Heure d'arrivée" [showIcon]="true" id="startedAt" formControlName="startedAt"
+                [showTime]="true"></p-calendar>
         </div>
     </div>
     <div>

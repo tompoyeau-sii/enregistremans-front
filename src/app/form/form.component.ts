@@ -11,7 +11,15 @@ export class FormComponent {
   managers = [
     { name: 'Ovilac Loison', value: 'option1' },
     { name: 'Eric Gourmel', value: 'option2' },
-    { name: 'Rachel', value: 'option3' }
+    { name: 'Rachel Vincent', value: 'option3' },
+    { name: 'Chloé Maillard', value: 'option4' },
+    { name: 'Nicolas Pettazzoni', value: 'option5' }
+  ];
+  reasons = [
+    { label: 'Entretien', value: 'option1' },
+    { label: 'Visite', value: 'option2' },
+    { label: 'Affaire', value: 'option3' },
+    { label: 'Autres', value: 'option4' }
   ];
 
   userForm: FormGroup;
@@ -22,10 +30,10 @@ export class FormComponent {
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required,]],
-      organisation: ['', [Validators.required,]],
-      correspondant: ['', [Validators.required,]],
-      motif: ['', [Validators.required,]],
-      startDate: ['', [Validators.required,]],
+      company: ['', [Validators.required,]],
+      manager: ['', [Validators.required,]],
+      reaseon: ['', [Validators.required,]],
+      startedAt: ['', [Validators.required,]],
     });
   }
 
