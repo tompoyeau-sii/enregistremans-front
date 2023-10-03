@@ -29,10 +29,10 @@ export class FormComponent {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required,]],
+      phone: '',
       company: ['', [Validators.required,]],
       manager: ['', [Validators.required,]],
-      reaseon: ['', [Validators.required,]],
+      reason: ['', [Validators.required,]],
       startedAt: ['', [Validators.required,]],
     });
   }

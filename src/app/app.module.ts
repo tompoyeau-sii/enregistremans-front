@@ -15,6 +15,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputMaskModule } from 'primeng/inputmask';
 import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { CalendarModule } from 'primeng/calendar';
     DropdownModule,
     InputNumberModule,
     FormsModule,
+    ToastModule,
     ReactiveFormsModule,
     BrowserModule,
     BrowserAnimationsModule,
