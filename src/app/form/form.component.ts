@@ -1,12 +1,26 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NotificationService } from '../notification.service';
 
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
-  styleUrls: ['./form.component.scss']
+  styleUrls: ['./form.component.scss'],
 })
 export class FormComponent {
+
+  constructor(private formBuilder: FormBuilder, private notificationService: NotificationService) {
+    this.userForm = this.formBuilder.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      phone: '',
+      company: ['', [Validators.required,]],
+      manager: ['', [Validators.required,]],
+      reason: ['', [Validators.required,]],
+      startedAt: ['', [Validators.required,]],
+    });
+  }
 
   managers = [
     { name: 'Ovilac Loison', value: 'option1' },
@@ -24,28 +38,25 @@ export class FormComponent {
 
   userForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
-    this.userForm = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      phone: '',
-      company: ['', [Validators.required,]],
-      manager: ['', [Validators.required,]],
-      reason: ['', [Validators.required,]],
-      startedAt: ['', [Validators.required,]],
-    });
-  }
-
   selectedOption: any;
   onOptionSelect(option: any) {
     this.selectedOption = option;
   }
+  showNotification(): void {
+    const message = 'Notification de succès';
+    const htmlContent = '<strong>Contenu HTML sécurisé</strong>';
 
+    // Utilisez le service de notification pour afficher la notification.
+    this.notificationService.showSuccess(message, htmlContent);
+  }
   onSubmit() {
     if (this.userForm.valid) {
       // Traitez les données du formulaire ici
       console.log(this.userForm.value);
+      this.notificationService.showSuccess('Enrgistrement réussi', '<strong>Contenu HTML sécurisé</strong>');
+    } else {
+      console.log(this.userForm.value);
+      this.notificationService.showSuccess('Enrgistrement réussi', '<strong>Contenu HTML sécurisé</strong>');
     }
 
   }
