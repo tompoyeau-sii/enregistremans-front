@@ -14,6 +14,7 @@ import { ParametersComponent } from './parameters/parameters.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputMaskModule } from 'primeng/inputmask';
 import { DropdownModule } from 'primeng/dropdown';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,9 @@ import { DropdownModule } from 'primeng/dropdown';
     ParametersComponent,
   ],
   imports: [
+    InputMaskModule,
+    DropdownModule,
+    InputNumberModule,
     FormsModule,
     ReactiveFormsModule,
     BrowserModule,
@@ -31,10 +35,8 @@ import { DropdownModule } from 'primeng/dropdown';
     ButtonModule,
     AppRoutingModule,
     MenubarModule,
+    CalendarModule,
     InputTextModule,
-    InputMaskModule,
-    DropdownModule,
-    InputNumberModule
   ],
   providers: [],
   bootstrap: [AppComponent]

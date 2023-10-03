@@ -8,6 +8,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class FormComponent {
 
+  managers = [
+    { name: 'Ovilac Loison', value: 'option1' },
+    { name: 'Eric Gourmel', value: 'option2' },
+    { name: 'Rachel', value: 'option3' }
+  ];
+
   userForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {
@@ -15,7 +21,17 @@ export class FormComponent {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
+      phone: ['', [Validators.required,]],
+      organisation: ['', [Validators.required,]],
+      correspondant: ['', [Validators.required,]],
+      motif: ['', [Validators.required,]],
+      startDate: ['', [Validators.required,]],
     });
+  }
+
+  selectedOption: any;
+  onOptionSelect(option: any) {
+    this.selectedOption = option;
   }
 
   onSubmit() {
