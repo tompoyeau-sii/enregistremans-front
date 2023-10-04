@@ -7,6 +7,7 @@ import { NotificationService } from '../notification.service';
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
 })
+
 export class FormComponent {
 
   constructor(private formBuilder: FormBuilder, private notificationService: NotificationService) {
@@ -21,7 +22,6 @@ export class FormComponent {
       startedAt: ['', [Validators.required,]],
     });
   }
-
   managers = [
     { name: 'Ovilac Loison', value: 'option1' },
     { name: 'Eric Gourmel', value: 'option2' },
@@ -42,21 +42,14 @@ export class FormComponent {
   onOptionSelect(option: any) {
     this.selectedOption = option;
   }
-  showNotification(): void {
-    const message = 'Notification de succès';
-    const htmlContent = '<strong>Contenu HTML sécurisé</strong>';
 
-    // Utilisez le service de notification pour afficher la notification.
-    this.notificationService.showSuccess(message, htmlContent);
-  }
   onSubmit() {
     if (this.userForm.valid) {
-      // Traitez les données du formulaire ici
       console.log(this.userForm.value);
       this.notificationService.showSuccess('Enrgistrement réussi', '<strong>Contenu HTML sécurisé</strong>');
     } else {
       console.log(this.userForm.value);
-      this.notificationService.showSuccess('Enrgistrement réussi', '<strong>Contenu HTML sécurisé</strong>');
+      this.notificationService.showError('Paramètres manquants', '<strong>Contenu HTML sécurisé</strong>');
     }
 
   }

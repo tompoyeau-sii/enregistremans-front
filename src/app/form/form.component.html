@@ -1,15 +1,17 @@
+
 <form
-    class="bg-blue-100 shadow-6 border-1 col-12 md:col-10 md:col-offset-1 lg:col-10 lg:col-offset-1 xl:col-8 xl:col-offset-2 border-round p-4"
-    [formGroup]="userForm" (ngSubmit)="onSubmit()">
-    <h1> Formulaire d'accueil </h1>
-    <h3>Visiteur</h3>
-    <div class="formgrid grid">
-        <div class="field col-12 md:col-6">
-            <input placeholder="Prénom*" pInputText id="firstName" formControlName="firstName" />
-        </div>
-        <div class="field col-12 md:col-6">
-            <input pInputText placeholder="Nom*" id="lastName" formControlName="lastName" />
-        </div>
+class="bg-blue-100 shadow-6 border-1 col-12 md:col-10 md:col-offset-1 lg:col-10 lg:col-offset-1 xl:col-8 xl:col-offset-2 border-round p-4"
+[formGroup]="userForm" (ngSubmit)="onSubmit()">
+<h1> Formulaire d'accueil </h1>
+
+<h3>Visiteur</h3>
+<div class="formgrid grid">
+    <div class="field col-12 md:col-6">
+        <input placeholder="Prénom*" pInputText id="firstName" formControlName="firstName" />
+    </div>
+    <div class="field col-12 md:col-6">
+        <input pInputText placeholder="Nom*" id="lastName" formControlName="lastName" />
+    </div>
     </div>
     <div class="formgrid grid">
         <div class="field col-12 md:col-6">
@@ -38,7 +40,9 @@
                 [showTime]="true"></p-calendar>
         </div>
     </div>
+    <p-messages></p-messages>
     <div>
-        <button type="submit" pButton label="Soumettre"></button>
+        <button type="submit" pButton label="Welcome"></button>
     </div>
+    
 </form>
