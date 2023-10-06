@@ -1,0 +1,20 @@
+<h3>Historique des enregistrements</h3>
+
+<p-table [value]="registers">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Visiteur</th>
+            <th>Manager</th>
+            <th>Motif de visite</th>
+            <th>Heure d'arrivée</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-register>
+        <tr>
+            <td>{{ register.firstname + " " + register.lastname }}</td>
+            <td>{{ register.manager }}</td>
+            <td>{{ register.reason }}</td>
+            <td>{{ register.startedAt }}</td>
+        </tr>
+    </ng-template>
+</p-table>

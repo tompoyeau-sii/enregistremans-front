@@ -1,27 +1,30 @@
-
 <form
-class="bg-blue-100 shadow-6 border-1 col-12 md:col-10 md:col-offset-1 lg:col-10 lg:col-offset-1 xl:col-8 xl:col-offset-2 border-round p-4"
-[formGroup]="userForm" (ngSubmit)="onSubmit()">
-<h1> Formulaire d'accueil </h1>
+    class="bg-blue-100 shadow-6 border-1 col-12 md:col-10 md:col-offset-1 lg:col-10 lg:col-offset-1 xl:col-8 xl:col-offset-2 border-round p-4"
+    [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <h1>Formulaire d'accueil</h1>
 
-<h3>Visiteur</h3>
-<div class="formgrid grid">
-    <div class="field col-12 md:col-6">
-        <input placeholder="Prénom*" pInputText id="firstName" formControlName="firstName" />
-    </div>
-    <div class="field col-12 md:col-6">
-        <input pInputText placeholder="Nom*" id="lastName" formControlName="lastName" />
-    </div>
+    <h3>Visiteur</h3>
+    <div class="formgrid grid">
+        <div class="field col-12 md:col-6">
+            <input placeholder="Prénom*" pInputText id="firstName"
+                [ngClass]="{ 'invalid-field': isFieldInvalid('firstName') }" formControlName="firstName" />
+        </div>
+        <div class="field col-12 md:col-6">
+            <input pInputText placeholder="Nom*" [ngClass]="{ 'invalid-field': isFieldInvalid('lastName') }"
+                id="lastName" formControlName="lastName" />
+        </div>
     </div>
     <div class="formgrid grid">
         <div class="field col-12 md:col-6">
-            <input pInputText placeholder="Email*" id="email" formControlName="email" />
+            <input pInputText placeholder="Email*" [ngClass]="{ 'invalid-field': isFieldInvalid('email') }" id="email"
+                formControlName="email" />
         </div>
         <div class="field col-12 md:col-6">
             <p-inputMask mask="99 99 99 99 99" id="phone" formControlName="phone" placeholder="Téléphone"></p-inputMask>
         </div>
         <div class="field col-12 md:col-6">
-            <input pInputText id="company" placeholder="Organisation*" formControlName="company" />
+            <input pInputText id="company" [ngClass]="{ 'invalid-field': isFieldInvalid('company') }"
+                placeholder="Organisation*" formControlName="company" />
         </div>
     </div>
 
@@ -30,19 +33,35 @@ class="bg-blue-100 shadow-6 border-1 col-12 md:col-10 md:col-offset-1 lg:col-10 
 
         <div class="field col-12 md:col-6">
             <p-dropdown [options]="managers" placeholder="Correspondant*" id="manager" formControlName="manager"
-                optionLabel="name" inputId="float-label"></p-dropdown>
+                optionLabel="name" inputId="float-label" (onChange)="onManagerOptionSelect($event)"
+                [ngClass]="{ 'invalid-field': isFieldInvalid('manager') }"></p-dropdown>
         </div>
-        <div class="field col-12 md:col-6">
-            <p-dropdown [options]="reasons" optionLabel="label" placeholder="Motif de visite*" id="reason" formControlName="reason"></p-dropdown>
+        <!-- Autre manager -->
+        <div class="field col-12 md:col-6" *ngIf="showOtherManagerField">
+            <input pInputText placeholder="Autre correspondant*" [ngClass]="{ 'invalid-field': isFieldInvalid('otherManager') }"
+                id="otherManager" formControlName="otherManager" />
         </div>
+
         <div class="field col-12 md:col-6">
-            <p-calendar placeholder="Heure d'arrivée" [showIcon]="true" id="startedAt" formControlName="startedAt"
+            <p-dropdown [options]="reasons" optionLabel="label" (onChange)="onReasonOptionSelect($event)"
+                [ngClass]="{ 'invalid-field': isFieldInvalid('reason') }" placeholder="Motif de visite*" id="reason"
+                formControlName="reason"></p-dropdown>
+        </div>
+        <!-- Autre motif -->
+        <div class="field col-12 md:col-6" *ngIf="showOtherReasonField">
+            <input pInputText placeholder="Autre motif*" [ngClass]="{ 'invalid-field': isFieldInvalid('otherReason') }"
+                id="otherReason" formControlName="otherReason" />
+        </div>
+
+        <div class="field col-12 md:col-6">
+            <p-calendar placeholder="Heure d'arrivée*" [showIcon]="true"
+                [ngClass]="{ 'invalid-field': isFieldInvalid('startedAt') }" id="startedAt" formControlName="startedAt"
                 [showTime]="true"></p-calendar>
         </div>
     </div>
-    <p-messages></p-messages>
+    <p-toast position="bottom-center"></p-toast>
     <div>
         <button type="submit" pButton label="Welcome"></button>
     </div>
-    
+
 </form>

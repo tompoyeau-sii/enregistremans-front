@@ -18,7 +18,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { MessagesModule } from 'primeng/messages';
-
+import { TableModule } from 'primeng/table';
 
 @NgModule({
   declarations: [
@@ -30,6 +30,7 @@ import { MessagesModule } from 'primeng/messages';
   ],
   imports: [
     InputMaskModule,
+    TableModule,
     DropdownModule,
     InputNumberModule,
     FormsModule,
