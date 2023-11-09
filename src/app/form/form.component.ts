@@ -1,6 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { NotificationService } from '../notification.service';
+import { NotificationService } from '../services/notification/notification.service';
+import { HttpClient } from '@angular/common/http';
+import { ManagerService } from '../services/manager/manager.service';
+import { format } from 'date-fns';
+
 
 @Component({
   selector: 'app-form',
@@ -8,41 +12,43 @@ import { NotificationService } from '../notification.service';
   styleUrls: ['./form.component.scss'],
 })
 
-export class FormComponent {
+export class FormComponent implements OnInit{
   otherManagerControl;
   otherReasonControl;
-  constructor(private formBuilder: FormBuilder, private notificationService: NotificationService) {
+  constructor(private formBuilder: FormBuilder, private notificationService: NotificationService, private http: HttpClient, private managerService: ManagerService) {
     this.userForm = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      phone: '',
+      firstname: ['', Validators.required],
+      lastname: ['', Validators.required],
+      mail: ['', [Validators.required, Validators.email]],
+      phone: '', // Champ optionnel
       company: ['', [Validators.required]],
       manager: ['', [Validators.required]],
-      otherManager: '', // Champ de texte conditionnel
+      otherManager: '', // Champ optionnel
       reason: ['', [Validators.required]],
-      otherReason: '', // Champ de texte conditionnel
+      otherReason: '', // Champ optionnel
+      estimateTime: ['', [Validators.required]],
       startedAt: ['', [Validators.required]],
     });
     this.otherManagerControl = this.userForm.get('otherManager') as FormControl; // Utilisation de FormControl
     this.otherReasonControl = this.userForm.get('otherReason') as FormControl; // Utilisation de FormControl
   }
 
-  managers = [
-    { name: 'Chloé Maillard', value: '1' },
-    { name: 'Eric Gourmel', value: '2' },
-    { name: 'Nicolas Pettazzoni', value: '3' },
-    { name: 'Ovilac Loison', value: '4' },
-    { name: 'Rachel Vincent', value: '5' },
-    { name: 'Autre', value: '6' },
-  ];
+  managers: any[] = []; 
 
   reasons = [
-    { label: 'Entretien', value: '1' },
-    { label: 'Visite', value: '2' },
-    { label: 'Affaire', value: '3' },
-    { label: 'Autre', value: '4' }
-    
+    { label: 'Entretien' },
+    { label: 'Visite' },
+    { label: 'Affaire' },
+    { label: 'Autre' }
+
+  ];
+  estimateTimes = [
+    { label: '30 minutes' },
+    { label: '1 heure' },
+    { label: '2 heures' },
+    { label: '1/2 journée' },
+    { label: '1 journée' }
+
   ];
 
   userForm: FormGroup;
@@ -51,9 +57,19 @@ export class FormComponent {
   showOtherManagerField: boolean = false;
   showOtherReasonField: boolean = false;
 
+  ngOnInit() {
+    this.managerService.getManagers().subscribe(data => {
+      console.log(data)
+      this.managers = data;
+      this.managers.push({fullname : 'Autre'})
+    });
+    console.log(this.managers)
+  }
+
   onManagerOptionSelect(option: any) {
-    this.selectedOption = option.value.name;
+    this.selectedOption = option.value.fullname;
     const otherManagerControl = this.userForm.get('otherManager')!;
+    const otherReasonControl = this.userForm.get('otherReason'); // Récupérer le contrôle otherReason
 
     if (this.selectedOption === "Autre") {
       otherManagerControl.setValidators([Validators.required]);
@@ -62,6 +78,7 @@ export class FormComponent {
     } else {
       otherManagerControl.clearValidators();
       otherManagerControl.updateValueAndValidity();
+      this.userForm.get('otherManager')?.setValue(null);
       this.showOtherManagerField = false;
     }
   }
@@ -69,7 +86,7 @@ export class FormComponent {
   onReasonOptionSelect(option: any) {
     this.selectedOption = option.value.label;
     const otherReasonControl = this.userForm.get('otherReason')!;
-    
+
     if (this.selectedOption == "Autre") {
       otherReasonControl.setValidators([Validators.required]);
       otherReasonControl.updateValueAndValidity();
@@ -77,6 +94,7 @@ export class FormComponent {
     } else {
       otherReasonControl.clearValidators();
       otherReasonControl.updateValueAndValidity();
+      this.userForm.get('otherReason')?.setValue(null);
       this.showOtherReasonField = false;
     }
   }
@@ -89,11 +107,39 @@ export class FormComponent {
   onSubmit() {
     this.userForm.markAllAsTouched();
     if (this.userForm.valid) {
-      console.log(this.userForm.value);
-      this.notificationService.showSuccess('Enregistrement réussi', '<strong>Contenu HTML sécurisé</strong>');
-    } else {
-      console.log(this.userForm.value);
+      const formData = this.userForm.value;
 
+      if (formData.otherReason) {
+        formData.reason = formData.otherReason; // Copier la valeur de otherReason dans reason
+      }
+      if (formData.otherManager) {
+        formData.manager = null; // Copier la valeur de otherReason dans reason
+      }
+      console.log(formData.reason)
+
+      // Formatage de la date
+      if (typeof formData.startedAt != 'string') {
+        formData.startedAt = format(formData.startedAt, "yyyy-MM-dd'T'HH:mm:ss.SSSX");
+      }
+      if (typeof formData.reason != 'string') {
+        formData.reason = formData.reason.label;
+      }
+      formData.estimateTime = formData.estimateTime.label;
+
+      // Effectuer la requête POST à l'API
+      this.http.post('http://localhost:8080/Registers', formData).subscribe(
+        (response) => {
+          console.log(formData)
+          console.log('Réponse de l\'API :', response);
+          this.notificationService.showSuccess('Enregistrement réussi', '<strong>Contenu HTML sécurisé</strong>');
+        },
+        (error) => {
+          console.log(formData)
+          console.error('Erreur lors de l\'enregistrement :', error);
+          this.notificationService.showError('Une erreur est survenue lors de l\'enregistrement.', '<strong>Contenu HTML sécurisé</strong>');
+        }
+      );
+    } else {
       this.notificationService.showError('Veuillez compléter tous les champs obligatoires (*)', '<strong>Contenu HTML sécurisé</strong>');
     }
   }

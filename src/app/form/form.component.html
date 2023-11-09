@@ -6,18 +6,18 @@
     <h3>Visiteur</h3>
     <div class="formgrid grid">
         <div class="field col-12 md:col-6">
-            <input placeholder="Prénom*" pInputText id="firstName"
-                [ngClass]="{ 'invalid-field': isFieldInvalid('firstName') }" formControlName="firstName" />
+            <input placeholder="Prénom*" pInputText id="firstname"
+                [ngClass]="{ 'invalid-field': isFieldInvalid('firstname') }" formControlName="firstname" />
         </div>
         <div class="field col-12 md:col-6">
-            <input pInputText placeholder="Nom*" [ngClass]="{ 'invalid-field': isFieldInvalid('lastName') }"
-                id="lastName" formControlName="lastName" />
+            <input pInputText placeholder="Nom*" [ngClass]="{ 'invalid-field': isFieldInvalid('lastname') }"
+                id="lastname" formControlName="lastname" />
         </div>
     </div>
     <div class="formgrid grid">
         <div class="field col-12 md:col-6">
-            <input pInputText placeholder="Email*" [ngClass]="{ 'invalid-field': isFieldInvalid('email') }" id="email"
-                formControlName="email" />
+            <input pInputText placeholder="Email*" [ngClass]="{ 'invalid-field': isFieldInvalid('mail') }" id="mail"
+                formControlName="mail" />
         </div>
         <div class="field col-12 md:col-6">
             <p-inputMask mask="99 99 99 99 99" id="phone" formControlName="phone" placeholder="Téléphone"></p-inputMask>
@@ -33,13 +33,14 @@
 
         <div class="field col-12 md:col-6">
             <p-dropdown [options]="managers" placeholder="Correspondant*" id="manager" formControlName="manager"
-                optionLabel="name" inputId="float-label" (onChange)="onManagerOptionSelect($event)"
+                optionLabel="fullname" inputId="float-label" (onChange)="onManagerOptionSelect($event)"
                 [ngClass]="{ 'invalid-field': isFieldInvalid('manager') }"></p-dropdown>
         </div>
         <!-- Autre manager -->
         <div class="field col-12 md:col-6" *ngIf="showOtherManagerField">
-            <input pInputText placeholder="Autre correspondant*" [ngClass]="{ 'invalid-field': isFieldInvalid('otherManager') }"
-                id="otherManager" formControlName="otherManager" />
+            <input pInputText placeholder="Autre correspondant*"
+                [ngClass]="{ 'invalid-field': isFieldInvalid('otherManager') }" id="otherManager"
+                formControlName="otherManager" />
         </div>
 
         <div class="field col-12 md:col-6">
@@ -56,8 +57,14 @@
         <div class="field col-12 md:col-6">
             <p-calendar placeholder="Heure d'arrivée*" [showIcon]="true"
                 [ngClass]="{ 'invalid-field': isFieldInvalid('startedAt') }" id="startedAt" formControlName="startedAt"
-                [showTime]="true"></p-calendar>
+                [showTime]="true" dateFormat="yy-mm-dd"></p-calendar>
         </div>
+        <div class="field col-12 md:col-6">
+            <p-dropdown [options]="estimateTimes" optionLabel="label"
+                [ngClass]="{ 'invalid-field': isFieldInvalid('estimateTime') }" placeholder="Durée estimée de visite*"
+                id="estimateTime" formControlName="estimateTime"></p-dropdown>
+        </div>
+
     </div>
     <p-toast position="bottom-center"></p-toast>
     <div>

@@ -1,0 +1,16 @@
+
+<h1 class="m-2">Connexion</h1>
+<form (ngSubmit)="onSubmit()" #form="ngForm">
+    <div class="p-field m-2">
+        <span class="p-input-icon-right">
+            <input placeholder="Identifiant" type="text" id="nomUtilisateur" name="nomUtilisateur" [(ngModel)]="nomUtilisateur" required pInputText>
+            <i class="pi pi-user"></i>
+        </span>
+    </div>
+
+    <div class="p-field m-2">
+        <p-password placeholder="Mot de passe" id="motDePasse" name="motDePasse" [(ngModel)]="motDePasse" required [toggleMask]="true" [feedback]="false"></p-password>
+    </div>
+
+    <button class="m-2" type="submit" [disabled]="!form.valid" pButton>Se connecter</button>
+</form>

@@ -3,11 +3,15 @@ import { RouterModule, Routes } from '@angular/router';
 import { ListingComponent } from './listing/listing.component';
 import { FormComponent } from './form/form.component';
 import { ParametersComponent } from './parameters/parameters.component';
+import { ConnexionComponent } from './connexion/connexion.component';
+import { AuthGuard } from './services/AuthGuard/auth.guard';
+
 
 const routes: Routes = [
-  { path: 'form', component: FormComponent },
-  { path: 'listing', component: ListingComponent },
-  { path: 'parameters', component: ParametersComponent }
+  { path: '', component: ConnexionComponent },
+  { path: 'form', component: FormComponent, canActivate: [AuthGuard] },
+  { path: 'listing', component: ListingComponent, canActivate: [AuthGuard] },
+  { path: 'parameters', component: ParametersComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

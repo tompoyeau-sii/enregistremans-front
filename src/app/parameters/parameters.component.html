@@ -1,1 +1,30 @@
-<p>parameters works!</p>
+
+    <h3 class="p-2 m-1">Managers</h3>
+
+<div class="flex">
+    <div *ngFor="let manager of managers" class="inline h-4rem font-bold text-center p-2 m-1 border-round">
+
+        <p-button [label]="manager.fullname" (click)="openConfirmation(manager)" icon="pi pi-trash" iconPos="right"
+            size="small"></p-button>
+        <p-dialog [draggable]="false" [resizable]="false" header="Suppression d'un manager"
+            [(visible)]="showDialogConfirmation" [modal]="true" [closable]="true" (onHide)="closeConfirmation()">
+            <div>
+                <p>Voulez-vous vraiment supprimer ce manager ?</p>
+                <p-button (click)="delManager()" label="Supprimer" icon="pi pi-trash"></p-button>
+            </div>
+        </p-dialog>
+    </div>
+    <p-button  size="small" class="p-2 m-1" (click)="openDialog()" icon="pi pi-plus"></p-button>
+</div>
+
+
+<p-dialog [draggable]="false" [resizable]="false" header="Ajouter un nouveau manager" [(visible)]="showDialog"
+    [modal]="true" [closable]="true" (onHide)="closeDialog()">
+    <div>
+        <div class="field col-12 md:col-6">
+            <input [(ngModel)]="newManager" placeholder="Prenom Nom*" pInputText id="newManager" />
+        </div>
+        <p-button (click)="addNewManager()" label="Ajouter" icon="pi pi-plus"></p-button>
+    </div>
+</p-dialog>
+<p-toast position="bottom-center"></p-toast>

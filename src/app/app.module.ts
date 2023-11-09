@@ -19,6 +19,12 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { MessagesModule } from 'primeng/messages';
 import { TableModule } from 'primeng/table';
+import { HttpClientModule } from '@angular/common/http';
+import { ListboxModule } from 'primeng/listbox';
+import { DialogModule } from 'primeng/dialog';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { ConnexionComponent } from './connexion/connexion.component';
+import { PasswordModule } from 'primeng/password';
 
 @NgModule({
   declarations: [
@@ -27,8 +33,14 @@ import { TableModule } from 'primeng/table';
     AppbarComponent,
     FormComponent,
     ParametersComponent,
+    ConnexionComponent,
   ],
   imports: [
+    HttpClientModule,
+    PasswordModule,
+    ConfirmPopupModule,
+    DialogModule,
+    ListboxModule,
     InputMaskModule,
     TableModule,
     DropdownModule,
