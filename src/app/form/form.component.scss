@@ -1,7 +1,12 @@
 .invalid-field {
-    border: 1px solid red; 
+    border: 1px solid red;
 }
 
 .invalid-dropdown .p-dropdown {
     border: 2px solid red;
+}
+
+.gradient {
+    background: linear-gradient(-45deg, #53A2DA,
+            #0059A3);
 }

@@ -10,7 +10,7 @@ export class RegistersService {
 
   constructor(private http: HttpClient) { }
 
-  getManagers(): Observable<any> {
+  getRegisters(): Observable<any> {
     return this.http.get(this.apiUrl);
   }
 }

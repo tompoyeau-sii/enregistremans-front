@@ -1,11 +1,15 @@
 <p-menubar>
     <ng-template pTemplate="start">
-        <h3>VIP</h3>
+
+        <img src="assets/img/autre.png" alt="Logo" style="height: 5em; margin-right: 10px;">
+
     </ng-template>
     <ng-template pTemplate="end">
         <p-button label="Formulaire" icon="pi pi-file" [routerLink]="['/form']" iconPos="left" [link]="true"></p-button>
-        <p-button label="Historique" icon="pi pi-list" iconPos="left" [routerLink]="['/listing']" [link]="true"></p-button>
-        <p-button label="Paramètres" icon="pi pi-cog" [routerLink]="['/parameters']" iconPos="left" [link]="true"></p-button>
+        <p-button label="Historique" icon="pi pi-list" iconPos="left" [routerLink]="['/listing']"
+            [link]="true"></p-button>
+        <p-button label="Paramètres" icon="pi pi-cog" [routerLink]="['/parameters']" iconPos="left"
+            [link]="true"></p-button>
         <p-button icon="pi pi-sign-out" (click)="deconnexion()" iconPos="left" [link]="true"></p-button>
     </ng-template>
 </p-menubar>

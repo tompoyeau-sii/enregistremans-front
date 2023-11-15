@@ -8,49 +8,73 @@ import { NotificationService } from '../services/notification/notification.servi
   styleUrls: ['./parameters.component.scss']
 })
 export class ParametersComponent  implements OnInit{
-  newManager = ''; 
-  showDialog = false;
-  showDialogConfirmation = false;
+  newManager = ''
+  showDialogAdd = false;
+  showDialogActive = false;
+  showDialogInactive = false;
   selectedManager: any;
 
-  openConfirmation(manager: any) {
+  openConfirmationActive(manager: any) {
     this.selectedManager = manager;
-    this.showDialogConfirmation = true;
+    this.showDialogActive = true;
   }
-  closeConfirmation() {
-    this.showDialogConfirmation = false;
+  closeConfirmationActive() {
+    this.showDialogActive = false;
+  }
+
+  openConfirmationInactive(manager: any) {
+    this.selectedManager = manager;
+    this.showDialogInactive = true;
+  }
+  closeConfirmationInactive() {
+    this.showDialogInactive = false;
   }
 
   openDialog() {
-    this.showDialog = true;
+    this.showDialogAdd = true;
   }
 
   closeDialog() {
-    this.showDialog = false;
+    this.showDialogAdd = false;
   }
   constructor(private managerService: ManagerService, private notificationService: NotificationService) { }
   managers: any[] = []; 
+  activeManagers: any[] = [];
+  inactiveManagers: any[] = [];
 
   ngOnInit() {
-    this.managerService.getManagers().subscribe(data => {
+    this.managerService.getManagers().subscribe((data) => {
       this.managers = data;
+      this.activeManagers = this.managers.filter((manager) => manager.active == true);
+      this.inactiveManagers = this.managers.filter((manager) => manager.active == false);
     });
+    console.log(this.managers)
   }
 
-  delManager() {
-    const managerIdToDelete = this.selectedManager.id;
-    this.managerService.delManager(managerIdToDelete).subscribe(
+  updateManagerState() {
+    console.log(this.selectedManager)
+    const managerIdToUpdate = this.selectedManager.id;
+    const newManagerState = !this.selectedManager.active; // Inverse l'état actuel
+    console.log(managerIdToUpdate)
+
+    this.managerService.updateManager(managerIdToUpdate, newManagerState).subscribe(
       (response) => {
-        const index = this.managers.findIndex(manager => manager.id === managerIdToDelete);
-        if (index !== -1) {
-          this.managers.splice(index, 1);
+        const updatedManager = this.managers.find((m) => m.id === managerIdToUpdate);
+        if (updatedManager) {
+          updatedManager.isActive = newManagerState;
         }
-        this.showDialogConfirmation = false;
-        this.notificationService.showSuccess('Supression réussi', '<strong>Contenu HTML sécurisé</strong>');
+        this.showDialogActive = false;
+        this.showDialogInactive = false;
+        this.notificationService.showSuccess('Mise à jour de l\'état réussie', '<strong>Contenu HTML sécurisé</strong>');
+        this.managerService.getManagers().subscribe(data => {
+          this.managers = data;
+          this.activeManagers = this.managers.filter((m) => m.active === true);
+          this.inactiveManagers = this.managers.filter((m) => m.active === false);
+        });
       },
       (error) => {
-        console.error('Échec de la suppression du manager', error);
-        this.notificationService.showError('Échec de la suppression du manager.', '<strong>Contenu HTML sécurisé</strong>');
+        console.error('Échec de la mise à jour de l\'état du manager', error);
+        this.notificationService.showError('Échec de la mise à jour de l\'état du manager.', '<strong>Contenu HTML sécurisé</strong>');
       }
     );
   }
@@ -63,13 +87,15 @@ export class ParametersComponent  implements OnInit{
     this.managerService.addManager(this.newManager).subscribe(() => {
       // Gérer le succès de l'ajout du manager
       console.log('Manager ajouté avec succès !');
-      this.showDialog = false;
+      this.showDialogAdd = false;
       this.newManager = ''; // Réinitialisez le champ de texte
       this.notificationService.showSuccess('Ajout du manager réussi', '<strong>Contenu HTML sécurisé</strong>');
 
       // Après avoir ajouté avec succès, mettez à jour la liste des managers
       this.managerService.getManagers().subscribe(data => {
         this.managers = data;
+        this.activeManagers = this.managers.filter((manager) => manager.active == true);
+        this.inactiveManagers = this.managers.filter((manager) => manager.active == false);
       });
     }, (error) => {
       // Gérer les erreurs en cas d'échec de l'ajout du manager

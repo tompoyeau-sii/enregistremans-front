@@ -2,33 +2,35 @@
 
 import { Injectable } from '@angular/core';
 import { StateService } from '../state/state.service';
+import { NotificationService } from '../notification/notification.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class AuthService {
-    constructor(private stateService: StateService) { }
+    constructor(private stateService: StateService, private notificationService: NotificationService) { }
 
     seConnecter(nomUtilisateur: string, motDePasse: string): boolean {
-        // Implémentez votre logique d'authentification et mettez à jour l'état
-        const authReussie = /* Logique d'authentification réussie */ true;
+        let authReussie = false;
+        if(nomUtilisateur == 'root' && motDePasse == 'root') {
+            authReussie = true;
+        }
 
         if (authReussie) {
             this.stateService.setUtilisateurConnecte(true);
             return true;
         } else {
             this.stateService.setUtilisateurConnecte(false);
+            this.notificationService.showError('Identifiant/Mot de passe incorrect.', '<strong>Contenu HTML sécurisé</strong>');
             return false;
         }
     }
 
     estConnecte(): boolean {
-        // Consultez l'observable dans le service partagé de manière synchrone
         return this.stateService.utilisateurConnecteSubject.value;
     }
 
     seDeconnecter(): void {
-        // Déconnectez l'utilisateur et mettez à jour l'état
         this.stateService.setUtilisateurConnecte(false);
     }
 }

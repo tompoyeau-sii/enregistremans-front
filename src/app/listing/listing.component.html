@@ -13,22 +13,18 @@
     <ng-template pTemplate="body" let-register>
         <tr>
             <td>{{ register.firstname + " " + register.lastname }}</td>
-            <td>
-                {{ register.managerName }}
-            </td>
-
-
-
+            <td>{{ register.managerName }}</td>
             <td>{{ register.reason }}</td>
             <td>{{ register.startedAt }}</td>
             <td>
                 <p-button (click)="showDialog(register)" icon="pi pi-eye" [link]="true"></p-button>
             </td>
 
-            <p-dialog *ngIf="selectedRegister" header="Détails" [(visible)]="visible" [modal]="true" [style]="{ width: '50vw' }" [draggable]="false"
-                [resizable]="false">
+            <p-dialog *ngIf="selectedRegister" header="Détails" [(visible)]="visible" [modal]="true"
+                [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
                 <p class="m-1">
-                    <span style="font-weight: bold;">Visiteur : </span>{{ selectedRegister.firstname + " " + selectedRegister.lastname }}
+                    <span style="font-weight: bold;">Visiteur : </span>{{ selectedRegister.firstname + " " +
+                    selectedRegister.lastname }}
                 </p>
                 <p class="m-1">
                     <span style="font-weight: bold;">Email : </span>{{ selectedRegister.mail }}

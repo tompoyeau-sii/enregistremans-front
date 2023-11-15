@@ -21,7 +21,7 @@ export class NotificationService {
       severity: 'success',
       summary: message,
       detail: '',
-      life: 7000, // Durée d'affichage de la notification en millisecondes.
+      life: 3000, // Durée d'affichage de la notification en millisecondes.
     });
   }
 
@@ -35,7 +35,7 @@ export class NotificationService {
       severity: 'error',
       summary: message,
       detail: '',
-      life: 7000, // Durée d'affichage de la notification en millisecondes.
+      life: 3000, // Durée d'affichage de la notification en millisecondes.
     });
   }
    

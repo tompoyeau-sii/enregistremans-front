@@ -19,7 +19,7 @@ export class FormComponent implements OnInit{
     this.userForm = this.formBuilder.group({
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
-      mail: ['', [Validators.required, Validators.email]],
+      mail: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')]],
       phone: '', // Champ optionnel
       company: ['', [Validators.required]],
       manager: ['', [Validators.required]],
@@ -45,7 +45,6 @@ export class FormComponent implements OnInit{
   estimateTimes = [
     { label: '30 minutes' },
     { label: '1 heure' },
-    { label: '2 heures' },
     { label: '1/2 journée' },
     { label: '1 journée' }
 
@@ -58,7 +57,7 @@ export class FormComponent implements OnInit{
   showOtherReasonField: boolean = false;
 
   ngOnInit() {
-    this.managerService.getManagers().subscribe(data => {
+    this.managerService.getActiveManagers().subscribe(data => {
       console.log(data)
       this.managers = data;
       this.managers.push({fullname : 'Autre'})
@@ -69,7 +68,6 @@ export class FormComponent implements OnInit{
   onManagerOptionSelect(option: any) {
     this.selectedOption = option.value.fullname;
     const otherManagerControl = this.userForm.get('otherManager')!;
-    const otherReasonControl = this.userForm.get('otherReason'); // Récupérer le contrôle otherReason
 
     if (this.selectedOption === "Autre") {
       otherManagerControl.setValidators([Validators.required]);
@@ -110,12 +108,11 @@ export class FormComponent implements OnInit{
       const formData = this.userForm.value;
 
       if (formData.otherReason) {
-        formData.reason = formData.otherReason; // Copier la valeur de otherReason dans reason
+        formData.reason = formData.otherReason;
       }
       if (formData.otherManager) {
-        formData.manager = null; // Copier la valeur de otherReason dans reason
+        formData.manager = null;
       }
-      console.log(formData.reason)
 
       // Formatage de la date
       if (typeof formData.startedAt != 'string') {
@@ -129,12 +126,13 @@ export class FormComponent implements OnInit{
       // Effectuer la requête POST à l'API
       this.http.post('http://localhost:8080/Registers', formData).subscribe(
         (response) => {
-          console.log(formData)
           console.log('Réponse de l\'API :', response);
           this.notificationService.showSuccess('Enregistrement réussi', '<strong>Contenu HTML sécurisé</strong>');
+
+          // Réinitialiser les valeurs du formulaire
+          this.userForm.reset();
         },
         (error) => {
-          console.log(formData)
           console.error('Erreur lors de l\'enregistrement :', error);
           this.notificationService.showError('Une erreur est survenue lors de l\'enregistrement.', '<strong>Contenu HTML sécurisé</strong>');
         }
@@ -143,4 +141,5 @@ export class FormComponent implements OnInit{
       this.notificationService.showError('Veuillez compléter tous les champs obligatoires (*)', '<strong>Contenu HTML sécurisé</strong>');
     }
   }
+
 }
