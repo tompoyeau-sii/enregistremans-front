@@ -29,8 +29,11 @@
                 <p class="m-1">
                     <span style="font-weight: bold;">Email : </span>{{ selectedRegister.mail }}
                 </p>
-                <p *ngIf="selectedRegister.phone" class="m-1">
+                <p *ngIf="selectedRegister.phone != ''" class="m-1">
                     <span style="font-weight: bold;">Téléphone : </span>{{ selectedRegister.phone }}
+                </p>
+                <p *ngIf="selectedRegister.phone == ''" class="m-1">
+                    <span style="font-weight: bold;">Téléphone : </span>Non communiqué
                 </p>
                 <p class="m-1">
                     <span style="font-weight: bold;">Organisation : </span>{{ selectedRegister.company }}

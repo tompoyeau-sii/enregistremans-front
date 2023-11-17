@@ -3,6 +3,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/AuthGuard/auth.service';
+import { HttpClient } from '@angular/common/http';
+import { StateService } from '../services/state/state.service';
 
 @Component({
   selector: 'app-connexion',
@@ -10,19 +12,35 @@ import { AuthService } from '../services/AuthGuard/auth.service';
   styleUrls: ['./connexion.component.scss'],
 })
 export class ConnexionComponent {
-  nomUtilisateur: string = '';
-  motDePasse: string = '';
-
-  constructor(private authService: AuthService, private router: Router) { }
-
+  username: string = '';
+  password: string = '';
+  authReussie: any;
+  
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private stateService: StateService
+    ) { }
+    
+  ngOnInit() {
+    this.stateService.setUtilisateurConnecte(false);
+  }
   onSubmit(): void {
-    const connexionReussie = this.authService.seConnecter(this.nomUtilisateur, this.motDePasse);
+    // Utilisez la nouvelle méthode seConnecter qui renvoie un boolean
+    this.authReussie = this.authService.seConnecter(this.username, this.password);
 
-    if (connexionReussie) {
-      // Redirigez l'utilisateur vers la page sécurisée après la connexion
-      this.router.navigate(['/form']);
-    } else {
-      console.log('Échec de la connexion. Veuillez vérifier vos informations.');
-    }
+    this.authService.seConnecter(this.username, this.password)
+      .subscribe(
+        (connexionReussie) => {
+          if (connexionReussie) {
+            // Rediriger l'utilisateur vers la page sécurisée après la connexion réussie
+
+            this.router.navigate(['/form']);
+          } else {
+            // Gérer l'échec de la connexion ici
+            console.log('Échec de la connexion. Veuillez vérifier vos informations.');
+          }
+        }
+      );
   }
 }
