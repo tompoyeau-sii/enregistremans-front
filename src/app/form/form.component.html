@@ -1,75 +1,81 @@
-<form
-    class="gradient shadow-6 col-12 md:col-10 md:col-offset-1 lg:col-10 lg:col-offset-1 xl:col-8 xl:col-offset-2 border-round p-4 text-white"
-    [formGroup]="userForm" (ngSubmit)="onSubmit()" style="backdrop-filter: blur(50px);">
-    
-    <h1>Formulaire d'accueil</h1>
-
-    <h3>Visiteur</h3>
-    <div class="formgrid grid">
-        <div class="field col-12 md:col-6">
-            <input placeholder="Prénom*" pInputText id="firstname"
-                [ngClass]="{ 'invalid-field': isFieldInvalid('firstname') }" formControlName="firstname" />
-        </div>
-        <div class="field col-12 md:col-6">
-            <input pInputText placeholder="Nom*" [ngClass]="{ 'invalid-field': isFieldInvalid('lastname') }"
-                id="lastname" formControlName="lastname" />
-        </div>
-    </div>
-    <div class="formgrid grid">
-        <div class="field col-12 md:col-6">
-            <input pInputText placeholder="Email*" [ngClass]="{ 'invalid-field': isFieldInvalid('mail') }" id="mail"
-                formControlName="mail" />
-        </div>
-        <div class="field col-12 md:col-6">
-            <p-inputMask mask="99 99 99 99 99" id="phone" formControlName="phone" placeholder="Téléphone"></p-inputMask>
-        </div>
-        <div class="field col-12 md:col-6">
-            <input pInputText id="company" [ngClass]="{ 'invalid-field': isFieldInvalid('company') }"
-                placeholder="Organisation*" formControlName="company" />
-        </div>
-    </div>
-
-    <h3>Correspondant</h3>
-    <div class="formgrid grid">
-
-        <div class="field col-12 md:col-6">
-            <p-dropdown [options]="managers" placeholder="Correspondant*" id="manager" formControlName="manager"
-                optionLabel="fullname" inputId="float-label" (onChange)="onManagerOptionSelect($event)"
-                [ngClass]="{ 'invalid-field': isFieldInvalid('manager') }"></p-dropdown>
-        </div>
-        <!-- Autre manager -->
-        <div class="field col-12 md:col-6" *ngIf="showOtherManagerField">
-            <input pInputText placeholder="Autre correspondant*"
-                [ngClass]="{ 'invalid-field': isFieldInvalid('otherManager') }" id="otherManager"
-                formControlName="otherManager" />
+<div
+    class="shadow-6 col-12 md:col-10 md:col-offset-1 lg:col-10 lg:col-offset-1 xl:col-8 xl:col-offset-2 border-round p-4 bg-white text-black">
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()" style="backdrop-filter: blur(50px);">
+        <div class="grid p-2">
+            <h1 class="gradient-title">Bienvenue chez SII Le Mans</h1>
         </div>
 
-        <div class="field col-12 md:col-6">
-            <p-dropdown [options]="reasons" optionLabel="label" (onChange)="onReasonOptionSelect($event)"
-                [ngClass]="{ 'invalid-field': isFieldInvalid('reason') }" placeholder="Motif de visite*" id="reason"
-                formControlName="reason"></p-dropdown>
-        </div>
-        <!-- Autre motif -->
-        <div class="field col-12 md:col-6" *ngIf="showOtherReasonField">
-            <input pInputText placeholder="Autre motif*" [ngClass]="{ 'invalid-field': isFieldInvalid('otherReason') }"
-                id="otherReason" formControlName="otherReason" />
+            <h3 class="gradient-title">Visiteur</h3>
+        <div class="formgrid grid">
+            <div class="field col-12 md:col-6">
+                <input autocomplete="off" placeholder="Prénom*" pInputText id="firstname"
+                    [ngClass]="{ 'invalid-field': isFieldInvalid('firstname') }" formControlName="firstname" />
+            </div>
+            <div class="field col-12 md:col-6">
+                <input autocomplete="off" pInputText placeholder="Nom*"
+                    [ngClass]="{ 'invalid-field': isFieldInvalid('lastname') }" id="lastname"
+                    formControlName="lastname" />
+            </div>
+            <div class="field col-12 md:col-6">
+                <input autocomplete="off" pInputText placeholder="Email*"
+                    [ngClass]="{ 'invalid-field': isFieldInvalid('mail') }" id="mail" formControlName="mail" />
+            </div>
+            <div class="field col-12 md:col-6">
+                <p-inputMask mask="99 99 99 99 99" id="phone" formControlName="phone"
+                    placeholder="Téléphone"></p-inputMask>
+            </div>
+            <div class="field col-12 md:col-6">
+                <input autocomplete="off" pInputText id="company"
+                    [ngClass]="{ 'invalid-field': isFieldInvalid('company') }" placeholder="Organisation*"
+                    formControlName="company" />
+            </div>
         </div>
 
-        <div class="field col-12 md:col-6">
-            <p-calendar severity="success" placeholder="Heure d'arrivée*" [showIcon]="true"
-                [ngClass]="{ 'invalid-field': isFieldInvalid('startedAt') }" id="startedAt" formControlName="startedAt"
-                [showTime]="true" dateFormat="yy-mm-dd"></p-calendar>
-        </div>
-        <div class="field col-12 md:col-6">
-            <p-dropdown [options]="estimateTimes" optionLabel="label"
-                [ngClass]="{ 'invalid-field': isFieldInvalid('estimateTime') }" placeholder="Durée estimée de visite*"
-                id="estimateTime" formControlName="estimateTime"></p-dropdown>
+        <h3 class="gradient-title">Correspondant</h3>
+        <div class="formgrid grid">
+
+            <div class="field col-12 md:col-6">
+                <p-dropdown [options]="managers" placeholder="Correspondant*" id="manager" formControlName="manager"
+                    optionLabel="fullname" inputId="float-label" (onChange)="onManagerOptionSelect($event)"
+                    [ngClass]="{ 'invalid-field': isFieldInvalid('manager') }"></p-dropdown>
+            </div>
+            <!-- Autre manager -->
+            <div class="field col-12 md:col-6" *ngIf="showOtherManagerField">
+                <input autocomplete="off" pInputText placeholder="Autre correspondant*"
+                    [ngClass]="{ 'invalid-field': isFieldInvalid('otherManager') }" id="otherManager"
+                    formControlName="otherManager" />
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <p-dropdown [options]="reasons" optionLabel="label" (onChange)="onReasonOptionSelect($event)"
+                    [ngClass]="{ 'invalid-field': isFieldInvalid('reason') }" placeholder="Motif de visite*" id="reason"
+                    formControlName="reason"></p-dropdown>
+            </div>
+            <!-- Autre motif -->
+            <div class="field col-12 md:col-6" *ngIf="showOtherReasonField">
+                <input autocomplete="off" pInputText placeholder="Autre motif*"
+                    [ngClass]="{ 'invalid-field': isFieldInvalid('otherReason') }" id="otherReason"
+                    formControlName="otherReason" />
+            </div>
+
+            <div class="field col-12 md:col-6">
+                <p-calendar severity="success" placeholder="Heure d'arrivée*" [showIcon]="true"
+                    [ngClass]="{ 'invalid-field': isFieldInvalid('startedAt') }" id="startedAt"
+                    formControlName="startedAt" [showTime]="true" dateFormat="dd/mm/yy"></p-calendar>
+            </div>
+            <div class="field col-12 md:col-6">
+                <p-dropdown [options]="estimateTimes" optionLabel="label"
+                    [ngClass]="{ 'invalid-field': isFieldInvalid('estimateTime') }"
+                    placeholder="Durée estimée de visite*" id="estimateTime"
+                    formControlName="estimateTime"></p-dropdown>
+            </div>
+
         </div>
 
-    </div>
-    <div>
-        <p-button severity="success" type="submit" label="Welcome"></p-button>
-    </div>
-    
-</form>
+
+        <div>
+            <p-button type="submit" label="Welcome"></p-button>
+        </div>
+    </form>
+</div>
 <p-toast position="bottom-center"></p-toast>

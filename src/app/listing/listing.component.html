@@ -1,6 +1,22 @@
+<div class="bg-white p-2 border-round">
+   
+
 <h3>Historique des enregistrements</h3>
 
-<p-table [value]="registers">
+<div class="search-form mb-2">
+    <input class="mr-2" type="text" pInputText id="name" placeholder="Visiteur" [(ngModel)]="filter.fullname" />
+    <p-dropdown class="mr-1" [options]="managers" placeholder="Correspondant" id="manager" optionLabel="fullname"
+        inputId="float-label" [(ngModel)]="filter.managerName"></p-dropdown>
+    <p-dropdown class="mr-2" [options]="reasons" optionLabel="label" [(ngModel)]="filter.reason"
+        placeholder="Motif de visite" id="reason"></p-dropdown>
+    <p-calendar class="mr-2" placeholder="Date" [showIcon]="true" [(ngModel)]="filter.startedAt" id="date"
+        dateFormat="dd/mm/yy"></p-calendar>
+
+    <p-button icon="pi pi-search" (click)="applyFilters()"></p-button>
+    <p-button icon="pi pi-times" (click)="resetFilters()"></p-button>
+</div>
+
+<p-table #dt class="mt-2" [value]="filteredRegisters">
     <ng-template pTemplate="header">
         <tr>
             <th>Visiteur</th>
@@ -12,46 +28,47 @@
     </ng-template>
     <ng-template pTemplate="body" let-register>
         <tr>
-            <td>{{ register.firstname + " " + register.lastname }}</td>
+            <td>{{ register.firstname + ' ' + register.lastname }}</td>
             <td>{{ register.managerName }}</td>
             <td>{{ register.reason }}</td>
             <td>{{ register.startedAt }}</td>
             <td>
                 <p-button (click)="showDialog(register)" icon="pi pi-eye" [link]="true"></p-button>
             </td>
-
-            <p-dialog *ngIf="selectedRegister" header="Détails" [(visible)]="visible" [modal]="true"
-                [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
-                <p class="m-1">
-                    <span style="font-weight: bold;">Visiteur : </span>{{ selectedRegister.firstname + " " +
-                    selectedRegister.lastname }}
-                </p>
-                <p class="m-1">
-                    <span style="font-weight: bold;">Email : </span>{{ selectedRegister.mail }}
-                </p>
-                <p *ngIf="selectedRegister.phone != ''" class="m-1">
-                    <span style="font-weight: bold;">Téléphone : </span>{{ selectedRegister.phone }}
-                </p>
-                <p *ngIf="selectedRegister.phone == ''" class="m-1">
-                    <span style="font-weight: bold;">Téléphone : </span>Non communiqué
-                </p>
-                <p class="m-1">
-                    <span style="font-weight: bold;">Organisation : </span>{{ selectedRegister.company }}
-                </p>
-                <p class="m-1">
-                    <span style="font-weight: bold;">Manager : </span>{{ selectedRegister.managerName }}
-                </p>
-
-                <p class="m-1">
-                    <span style="font-weight: bold;">Motif de visite : </span> {{ selectedRegister.reason }}
-                </p>
-                <p class="m-1">
-                    <span style="font-weight: bold;">Date d'arrivée : </span> {{ selectedRegister.startedAt }}
-                </p>
-                <p class="m-1">
-                    <span style="font-weight: bold;">Durée estimée : </span> {{ selectedRegister.estimateTime }}
-                </p>
-            </p-dialog>
         </tr>
     </ng-template>
 </p-table>
+
+<p-dialog *ngIf="selectedRegister" header="Détails" [(visible)]="visible" [modal]="true"
+    [style]="{ width: '50vw' }" [draggable]="false" [resizable]="false">
+    <p class="m-1">
+        <span style="font-weight: bold;">Visiteur : </span>{{ selectedRegister.firstname + " " +
+        selectedRegister.lastname }}
+    </p>
+    <p class="m-1">
+        <span style="font-weight: bold;">Email : </span>{{ selectedRegister.mail }}
+    </p>
+    <p *ngIf="selectedRegister.phone != ''" class="m-1">
+        <span style="font-weight: bold;">Téléphone : </span>{{ selectedRegister.phone }}
+    </p>
+    <p *ngIf="selectedRegister.phone == ''" class="m-1">
+        <span style="font-weight: bold;">Téléphone : </span>Non communiqué
+    </p>
+    <p class="m-1">
+        <span style="font-weight: bold;">Organisation : </span>{{ selectedRegister.company }}
+    </p>
+    <p class="m-1">
+        <span style="font-weight: bold;">Manager : </span>{{ selectedRegister.managerName }}
+    </p>
+
+    <p class="m-1">
+        <span style="font-weight: bold;">Motif de visite : </span> {{ selectedRegister.reason }}
+    </p>
+    <p class="m-1">
+        <span style="font-weight: bold;">Date d'arrivée : </span> {{ selectedRegister.startedAt }}
+    </p>
+    <p class="m-1">
+        <span style="font-weight: bold;">Durée estimée : </span> {{ selectedRegister.estimateTime }}
+    </p>
+</p-dialog>
+</div>

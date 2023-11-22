@@ -32,11 +32,28 @@ interface Manager {
 
 export class ListingComponent {
   constructor(private registersService: RegistersService, private managersService: ManagerService) { }
+
   registers: any[] = [];
   managers: any[] = [];
   selectedRegister: any = null;
-
   visible: boolean = false;
+
+  filteredRegisters: Register[] = [];
+
+  filter: any = {
+    fullname: null,
+    managerName: null,
+    reason: null,
+    startedAt: null
+  };
+
+  reasons = [
+    { label: 'Entretien' },
+    { label: 'Visite' },
+    { label: 'Affaire' }
+  ];
+  
+
 
   showDialog(register: any) {
     this.selectedRegister = register;
@@ -59,7 +76,7 @@ export class ListingComponent {
         startedAt: format(parseISO(entry.startedAt), 'dd MMMM yyyy H\'h\'mm', { locale: fr }),
         managerName: this.getManagerName(entry.manager, entry.otherManager)
       }));
-
+      this.filteredRegisters = [...this.registers]; // Initialisation des données filtrées
       console.log(this.registers)
     });
   }
@@ -80,5 +97,62 @@ export class ListingComponent {
     return manager.fullname;
   }
 
+  applyFilters() {
+    // Appliquez le filtre directement sur la liste filteredRegisters
+    this.filteredRegisters = this.registers.filter(register => {
+      return Object.keys(this.filter).every(key => {
+        const value = this.filter[key];
+
+        // Si le champ est fullname, combinez prénom et nom de famille et comparez avec filter.fullname
+        if (key === 'fullname') {
+          const fullname = (register.firstname + ' ' + register.lastname).toLowerCase();
+          return value === null || fullname.includes(value.toString().toLowerCase());
+        }
+
+        // Si le champ est managerName, comparez avec le fullname du manager
+        if (key === 'managerName') {
+          const managerFullname = this.getManagerFullname(register.manager);
+          return !value || managerFullname.includes(value.fullname);
+        }
+
+        if (key === 'reason') {
+          return !value || register.reason.includes(value.label);
+        }
+
+        if (key === 'startedAt') {
+          if(value) {
+            const date = format(value, 'dd MMMM yyyy', { locale: fr })
+            return !value || register.startedAt.includes(date);
+          }
+        }
+
+        return value === null || register[key].toString().toLowerCase().includes(value.toString().toLowerCase());
+      });
+    });
+  }
+
+  getManagerFullname(manager: Manager | number | null): string {
+    if (manager === null || typeof manager === 'number') {
+      // Gérer les cas où manager est null ou un nombre
+      const matchingManager = this.managers.find(m => m.id === (manager as number));
+      return matchingManager ? matchingManager.fullname : "N/A";
+    }
+
+    // Cas où manager est déjà un objet Manager
+    return manager.fullname;
+  }
+
+  resetFilters() {
+    // Réinitialisez les filtres en remettant la liste à sa valeur d'origine
+    this.filter.fullname = null
+    this.filter.managerName = null
+    this.filter.reason = null
+    this.filter.startedAt = null
+
+    this.filteredRegisters = [...this.registers];
+  }
+
+
 
 }
+

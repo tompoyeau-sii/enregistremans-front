@@ -3,8 +3,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/AuthGuard/auth.service';
-import { HttpClient } from '@angular/common/http';
 import { StateService } from '../services/state/state.service';
+import { NotificationService } from '../services/notification/notification.service';
 
 @Component({
   selector: 'app-connexion',
@@ -19,6 +19,7 @@ export class ConnexionComponent {
   constructor(
     private authService: AuthService,
     private router: Router,
+    private notificationService: NotificationService,
     private stateService: StateService
     ) { }
     
@@ -39,6 +40,7 @@ export class ConnexionComponent {
           } else {
             // Gérer l'échec de la connexion ici
             console.log('Échec de la connexion. Veuillez vérifier vos informations.');
+            this.notificationService.showError('Identifiants incorrect.', '<strong>Contenu HTML sécurisé</strong>');
           }
         }
       );

@@ -10,6 +10,28 @@
 </head>
 
 <style>
+  
+  html {
+    height: 100vh;
+
+    background: linear-gradient(120deg, #0059a3, #53a2da, #53a2da, #0059a3);
+    background-size: 240% 240%;
+    animation: gradient-animation 24s ease infinite;
+  }
+
+  @keyframes gradient-animation {
+    0% {
+      background-position: 0% 50%;
+    }
+
+    50% {
+      background-position: 100% 50%;
+    }
+
+    100% {
+      background-position: 0% 50%;
+    }
+  }
 </style>
 
 <body>

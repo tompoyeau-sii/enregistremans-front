@@ -25,6 +25,7 @@ import { DialogModule } from 'primeng/dialog';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ConnexionComponent } from './connexion/connexion.component';
 import { PasswordModule } from 'primeng/password';
+import { CardModule } from 'primeng/card';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { PasswordModule } from 'primeng/password';
     ConnexionComponent,
   ],
   imports: [
+    CardModule,
     HttpClientModule,
     PasswordModule,
     ConfirmPopupModule,

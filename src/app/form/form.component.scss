@@ -7,6 +7,15 @@
 }
 
 .gradient {
-    background: linear-gradient(-45deg, #53A2DA,
-            #0059A3);
+    background: white;
+}
+
+.gradient-title {
+    display: inline-block;
+    background: linear-gradient(to left,
+            #53a2da,
+            #0059a3);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
