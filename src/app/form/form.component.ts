@@ -124,7 +124,7 @@ export class FormComponent implements OnInit{
       formData.estimateTime = formData.estimateTime.label;
 
       // Effectuer la requête POST à l'API
-      this.http.post('http://localhost:8080/Registers', formData).subscribe(
+      this.http.post('https://register-7y7k.onrender.com/Registers', formData).subscribe(
         (response) => {
           console.log('Réponse de l\'API :', response);
           this.notificationService.showSuccess('Enregistrement réussi', '<strong>Contenu HTML sécurisé</strong>');
