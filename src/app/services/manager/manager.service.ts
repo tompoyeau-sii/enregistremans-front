@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ManagerService {
-  private apiUrl = 'http://localhost:8080/Managers';
+  private apiUrl = 'https://register-7y7k.onrender.com/Managers';
 
   constructor(private http: HttpClient) { }
 
@@ -21,7 +21,7 @@ export class ManagerService {
   }
 
   delManager(managerId: number): Observable<any> {
-    const deleteUrl = `http://localhost:8080/Manager/${managerId}`;
+    const deleteUrl = `https://register-7y7k.onrender.com/Manager/${managerId}`;
     return this.http.delete(deleteUrl);
   }
 
@@ -33,7 +33,7 @@ export class ManagerService {
 
   updateManager(managerId: number, managerState: boolean) {
     // Envoyer une requête PUT à l'API pour mettre à jour le manager
-    const updateUrl = `http://localhost:8080/Manager/${managerId}`;
+    const updateUrl = `https://register-7y7k.onrender.com/Manager/${managerId}`;
     const managerData = { active: managerState };
     return this.http.put(updateUrl, managerData);
   }

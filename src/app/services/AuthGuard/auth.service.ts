@@ -12,7 +12,7 @@ import { of } from 'rxjs';
     providedIn: 'root',
 })
 export class AuthService {
-    private apiUrl = 'http://localhost:8080/auth';
+    private apiUrl = 'https://register-7y7k.onrender.com/auth';
     constructor(private http: HttpClient, private stateService: StateService, private notificationService: NotificationService) { }
 
     seConnecter(nomUtilisateur: string, motDePasse: string): Observable<boolean> {
