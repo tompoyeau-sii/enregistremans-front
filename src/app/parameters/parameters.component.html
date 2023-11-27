@@ -1,40 +1,46 @@
 <div class="bg-white p-2 border-round">
 
     <h3 class="p-2 m-1">Managers actifs</h3>
+    <p-button size="small" class="h-4rem p-2 m-1" (click)="openDialog()" icon="pi pi-plus"></p-button>
 
     <div class="flex">
-        <div *ngFor="let manager of activeManagers" class="inline h-4rem font-bold text-center p-2 m-1 border-round">
-
-            <p-button [label]="manager.fullname" (click)="openConfirmationActive(manager)"
-                icon="pi pi-arrow-right-arrow-left" iconPos="right" size="small"></p-button>
-            <p-dialog [draggable]="false" [resizable]="false" header="Passer le manager en inactif"
-                [(visible)]="showDialogActive" [modal]="true" [closable]="true" (onHide)="closeConfirmationActive()">
-                <div>
-                    <p>Voulez-vous passer ce manager en inactif ?</p>
-                    <p-button (click)="updateManagerState()" label="Confirmer"
-                        icon="pi pi-arrow-right-arrow-left"></p-button>
-                </div>
-            </p-dialog>
+        <div class="card-container">
+            <div *ngFor="let manager of activeManagers"
+                class="inline-block h-4rem font-bold text-center p-2 m-1 border-round">
+                <p-button [label]="manager.fullname" (click)="openConfirmationActive(manager)"
+                    icon="pi pi-arrow-right-arrow-left" iconPos="right" size="small"></p-button>
+                <p-dialog [draggable]="false" [resizable]="false" header="Passer le manager en inactif"
+                    [(visible)]="showDialogActive" [modal]="true" [closable]="true"
+                    (onHide)="closeConfirmationActive()">
+                    <div>
+                        <p>Voulez-vous passer ce manager en inactif ?</p>
+                        <p-button (click)="updateManagerState()" label="Confirmer"
+                            icon="pi pi-arrow-right-arrow-left"></p-button>
+                    </div>
+                </p-dialog>
+            </div>
 
         </div>
-        <p-button size="small" class="p-2 m-1" (click)="openDialog()" icon="pi pi-plus"></p-button>
     </div>
 
     <h3 class="p-2 m-1">Managers inactifs</h3>
     <div class="flex">
-        <div *ngFor="let manager of inactiveManagers" class="inline h-4rem font-bold text-center p-2 m-1 border-round">
+        <div class="card-container">
+            <div *ngFor="let manager of inactiveManagers"
+                class="inline-block h-4rem font-bold text-center p-2 m-1 border-round">
 
-            <p-button severity="secondary" [label]="manager.fullname" (click)="openConfirmationInactive(manager)"
-                icon="pi pi-arrow-right-arrow-left" iconPos="right" size="small"></p-button>
-            <p-dialog [draggable]="false" [resizable]="false" header="Passer le manager en actif"
-                [(visible)]="showDialogInactive" [modal]="true" [closable]="true"
-                (onHide)="closeConfirmationInactive()">
-                <div>
-                    <p>Voulez-vous passer ce manager en actif ?</p>
-                    <p-button (click)="updateManagerState()" label="Confirmer"
-                        icon="pi pi-arrow-right-arrow-left"></p-button>
-                </div>
-            </p-dialog>
+                <p-button severity="secondary" [label]="manager.fullname" (click)="openConfirmationInactive(manager)"
+                    icon="pi pi-arrow-right-arrow-left" iconPos="right" size="small"></p-button>
+                <p-dialog [draggable]="false" [resizable]="false" header="Passer le manager en actif"
+                    [(visible)]="showDialogInactive" [modal]="true" [closable]="true"
+                    (onHide)="closeConfirmationInactive()">
+                    <div>
+                        <p>Voulez-vous passer ce manager en actif ?</p>
+                        <p-button (click)="updateManagerState()" label="Confirmer"
+                            icon="pi pi-arrow-right-arrow-left"></p-button>
+                    </div>
+                </p-dialog>
+            </div>
         </div>
     </div>
 

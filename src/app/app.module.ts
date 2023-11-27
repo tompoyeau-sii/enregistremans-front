@@ -26,6 +26,7 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ConnexionComponent } from './connexion/connexion.component';
 import { PasswordModule } from 'primeng/password';
 import { CardModule } from 'primeng/card';
+import { FullscreenButtonComponent } from './fullscreen-button/fullscreen-button.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { CardModule } from 'primeng/card';
     FormComponent,
     ParametersComponent,
     ConnexionComponent,
+    FullscreenButtonComponent,
   ],
   imports: [
     CardModule,

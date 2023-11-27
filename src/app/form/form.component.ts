@@ -4,7 +4,7 @@ import { NotificationService } from '../services/notification/notification.servi
 import { HttpClient } from '@angular/common/http';
 import { ManagerService } from '../services/manager/manager.service';
 import { format } from 'date-fns';
-
+import { ConfigService } from '../services/config/config.service';
 
 @Component({
   selector: 'app-form',
@@ -15,7 +15,7 @@ import { format } from 'date-fns';
 export class FormComponent implements OnInit{
   otherManagerControl;
   otherReasonControl;
-  constructor(private formBuilder: FormBuilder, private notificationService: NotificationService, private http: HttpClient, private managerService: ManagerService) {
+  constructor(private formBuilder: FormBuilder, private notificationService: NotificationService, private http: HttpClient, private managerService: ManagerService, private config: ConfigService) {
     this.userForm = this.formBuilder.group({
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
@@ -124,7 +124,7 @@ export class FormComponent implements OnInit{
       formData.estimateTime = formData.estimateTime.label;
 
       // Effectuer la requête POST à l'API
-      this.http.post('https://register-7y7k.onrender.com/Registers', formData).subscribe(
+      this.http.post(`${this.config.apiUrl}Registers`, formData).subscribe(
         (response) => {
           console.log('Réponse de l\'API :', response);
           this.notificationService.showSuccess('Enregistrement réussi', '<strong>Contenu HTML sécurisé</strong>');

@@ -15,12 +15,13 @@ export class ConnexionComponent {
   username: string = '';
   password: string = '';
   authReussie: any;
+  loader= false;
   
   constructor(
     private authService: AuthService,
     private router: Router,
     private notificationService: NotificationService,
-    private stateService: StateService
+    private stateService: StateService,
     ) { }
     
   ngOnInit() {

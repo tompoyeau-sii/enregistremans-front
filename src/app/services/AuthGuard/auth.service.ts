@@ -2,23 +2,22 @@
 
 import { Injectable } from '@angular/core';
 import { StateService } from '../state/state.service';
-import { NotificationService } from '../notification/notification.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { ConfigService } from '../config/config.service';
 
 @Injectable({
     providedIn: 'root',
 })
 export class AuthService {
-    private apiUrl = 'https://register-7y7k.onrender.com/auth';
-    constructor(private http: HttpClient, private stateService: StateService, private notificationService: NotificationService) { }
+    constructor(private http: HttpClient, private stateService: StateService, private config: ConfigService) { }
 
     seConnecter(nomUtilisateur: string, motDePasse: string): Observable<boolean> {
         const credentials = { username: nomUtilisateur, password: motDePasse };
 
-        return this.http.post<any>(`${this.apiUrl}/login`, credentials, { responseType: 'text' as 'json' })
+        return this.http.post<any>(`${this.config.apiUrl}auth/login`, credentials, { responseType: 'text' as 'json' })
             .pipe(
                 map(response => {
                     // Gérer la réponse en tant que texte brut

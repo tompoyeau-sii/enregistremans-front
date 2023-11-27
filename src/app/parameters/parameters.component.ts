@@ -52,10 +52,8 @@ export class ParametersComponent  implements OnInit{
   }
 
   updateManagerState() {
-    console.log(this.selectedManager)
     const managerIdToUpdate = this.selectedManager.id;
     const newManagerState = !this.selectedManager.active; // Inverse l'état actuel
-    console.log(managerIdToUpdate)
 
     this.managerService.updateManager(managerIdToUpdate, newManagerState).subscribe(
       (response) => {
