@@ -21,11 +21,11 @@
     <p-table *ngIf="!loading" #dt class="mt-2" [value]="filteredRegisters">
         <ng-template pTemplate="header">
             <tr>
-                <th>Visiteur</th>
-                <th>Manager</th>
-                <th>Motif de visite</th>
-                <th>Date d'arrivée</th>
-                <th></th>
+                <th scope="col">Visiteur</th>
+                <th scope="col">Manager</th>
+                <th scope="col">Motif de visite</th>
+                <th scope="col">Date d'arrivée</th>
+                <th scope="col"></th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-register>
