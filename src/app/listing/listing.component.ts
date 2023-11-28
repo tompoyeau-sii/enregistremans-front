@@ -125,7 +125,7 @@ export class ListingComponent {
         if (key === 'startedAt') {
           if(value) {
             const date = format(value, 'dd MMMM yyyy', { locale: fr })
-            return !value || register.startedAt.includes(date);
+            return register.startedAt.includes(date);
           }
         }
 

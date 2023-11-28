@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-fullscreen-button',
-  templateUrl: './fullscreen-button.component.html',
-  styleUrls: ['./fullscreen-button.component.scss']
+  templateUrl: './fullscreen-button.component.html'
 })
 export class FullscreenButtonComponent {
 

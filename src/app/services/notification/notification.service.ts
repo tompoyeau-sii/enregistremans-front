@@ -12,10 +12,7 @@ export class NotificationService {
   ) { }
 
   showSuccess(message: string, htmlContent: string): void {
-    // Code pour afficher une notification de succès (ex. alert ou snackbar).
-    const sanitizedHtml: SafeHtml = this.sanitizer.bypassSecurityTrustHtml(
-      htmlContent
-    );
+    // Code pour afficher une notification de succès
 
     this.messageService.add({
       severity: 'success',
@@ -26,10 +23,7 @@ export class NotificationService {
   }
 
   showError(message: string, htmlContent: string): void {
-    // Code pour afficher une notification de succès (ex. alert ou snackbar).
-    const sanitizedHtml: SafeHtml = this.sanitizer.bypassSecurityTrustHtml(
-      htmlContent
-    );
+    // Code pour afficher une notification d'erreur
 
     this.messageService.add({
       severity: 'error',
