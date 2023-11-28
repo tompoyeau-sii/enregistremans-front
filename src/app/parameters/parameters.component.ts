@@ -13,6 +13,7 @@ export class ParametersComponent  implements OnInit{
   showDialogActive = false;
   showDialogInactive = false;
   selectedManager: any;
+  loading: boolean = true;
 
   openConfirmationActive(manager: any) {
     this.selectedManager = manager;
@@ -43,12 +44,13 @@ export class ParametersComponent  implements OnInit{
   inactiveManagers: any[] = [];
 
   ngOnInit() {
+    
     this.managerService.getManagers().subscribe((data) => {
       this.managers = data;
       this.activeManagers = this.managers.filter((manager) => manager.active == true);
       this.inactiveManagers = this.managers.filter((manager) => manager.active == false);
+      this.loading = false;
     });
-    console.log(this.managers)
   }
 
   updateManagerState() {

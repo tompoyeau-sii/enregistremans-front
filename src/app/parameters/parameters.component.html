@@ -1,10 +1,15 @@
-<div class="bg-white p-2 border-round">
+<app-fullscreen-button class="m-4"></app-fullscreen-button>
+<div class="bg-white m-4 p-2 border-round">
 
-    <h3 class="p-2 m-1">Managers actifs</h3>
-    <p-button size="small" class="h-4rem p-2 m-1" (click)="openDialog()" icon="pi pi-plus"></p-button>
+    <div style="display: flex; align-items: center;">
+        <h3 class="p-2 m-1">Managers actifs</h3>
+        <p-button [text]="true" size="small" (click)="openDialog()" icon="pi pi-plus"></p-button>
+    </div>
 
     <div class="flex">
         <div class="card-container">
+            <p-skeleton class="inline-block h-4rem font-bold text-center p-2 m-1 border-round" *ngIf="loading" width="10rem" height="2rem"></p-skeleton>
+
             <div *ngFor="let manager of activeManagers"
                 class="inline-block h-4rem font-bold text-center p-2 m-1 border-round">
                 <p-button [label]="manager.fullname" (click)="openConfirmationActive(manager)"

@@ -27,6 +27,7 @@ import { ConnexionComponent } from './connexion/connexion.component';
 import { PasswordModule } from 'primeng/password';
 import { CardModule } from 'primeng/card';
 import { FullscreenButtonComponent } from './fullscreen-button/fullscreen-button.component';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { FullscreenButtonComponent } from './fullscreen-button/fullscreen-button
   ],
   imports: [
     CardModule,
+    SkeletonModule,
     HttpClientModule,
     PasswordModule,
     ConfirmPopupModule,

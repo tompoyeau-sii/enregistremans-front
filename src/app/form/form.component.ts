@@ -55,8 +55,10 @@ export class FormComponent implements OnInit{
   selectedOption: any;
   showOtherManagerField: boolean = false;
   showOtherReasonField: boolean = false;
+  loading: boolean = false;
 
-  ngOnInit() {
+
+  ngOnInit() {    
     this.managerService.getActiveManagers().subscribe(data => {
       console.log(data)
       this.managers = data;
@@ -103,6 +105,7 @@ export class FormComponent implements OnInit{
   }
 
   onSubmit() {
+    
     this.userForm.markAllAsTouched();
     if (this.userForm.valid) {
       const formData = this.userForm.value;
@@ -123,16 +126,18 @@ export class FormComponent implements OnInit{
       }
       formData.estimateTime = formData.estimateTime.label;
 
+      this.loading = true;
       // Effectuer la requête POST à l'API
       this.http.post(`${this.config.apiUrl}Registers`, formData).subscribe(
         (response) => {
-          console.log('Réponse de l\'API :', response);
+          this.loading = false;
           this.notificationService.showSuccess('Enregistrement réussi', '<strong>Contenu HTML sécurisé</strong>');
 
           // Réinitialiser les valeurs du formulaire
           this.userForm.reset();
         },
         (error) => {
+          this.loading = false;
           console.error('Erreur lors de l\'enregistrement :', error);
           this.notificationService.showError('Une erreur est survenue lors de l\'enregistrement.', '<strong>Contenu HTML sécurisé</strong>');
         }

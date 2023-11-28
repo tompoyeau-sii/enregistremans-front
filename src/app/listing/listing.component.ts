@@ -33,6 +33,7 @@ interface Manager {
 export class ListingComponent {
   constructor(private registersService: RegistersService, private managersService: ManagerService) { }
 
+  loading: boolean = true;
   registers: any[] = [];
   managers: any[] = [];
   selectedRegister: any = null;
@@ -78,7 +79,9 @@ export class ListingComponent {
       }));
       this.filteredRegisters = [...this.registers]; // Initialisation des données filtrées
       console.log(this.registers)
+      this.loading = false;
     });
+    
   }
 
   getManagerName(manager: Manager | number | null, otherManager: string | null): string {
@@ -151,8 +154,6 @@ export class ListingComponent {
 
     this.filteredRegisters = [...this.registers];
   }
-
-
 
 }
 
