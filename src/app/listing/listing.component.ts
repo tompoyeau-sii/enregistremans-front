@@ -87,7 +87,7 @@ export class ListingComponent {
   getManagerName(manager: Manager | number | null, otherManager: string | null): string {
     if (!manager) {
       // Si le manager est null, utilisez otherManager
-      return otherManager || "N/A";
+      return otherManager ?? "N/A";
     }
 
     // Si l'ID du manager est fourni, recherchez dans la liste des managers

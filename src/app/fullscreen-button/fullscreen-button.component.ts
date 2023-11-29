@@ -16,9 +16,9 @@ export class FullscreenButtonComponent {
 
   isFullscreen(): boolean {
     return !!(
-      document.fullscreenElement ||
-      (document as any).mozFullScreenElement ||
-      (document as any).webkitFullscreenElement ||
+      document.fullscreenElement ??
+      (document as any).mozFullScreenElement ??
+      (document as any).webkitFullscreenElement ??
       (document as any).msFullscreenElement
     );
   }

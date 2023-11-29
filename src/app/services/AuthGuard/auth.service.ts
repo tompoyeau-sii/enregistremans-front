@@ -3,9 +3,8 @@
 import { Injectable } from '@angular/core';
 import { StateService } from '../state/state.service';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { of } from 'rxjs';
 import { ConfigService } from '../config/config.service';
 
 @Injectable({
