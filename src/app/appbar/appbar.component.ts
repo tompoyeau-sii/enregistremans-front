@@ -10,8 +10,9 @@ import { Router } from '@angular/router';
 export class AppbarComponent {
   constructor(private authService: AuthService, private router: Router) { }
 
+  //Méthode pour déclancher la déconnexion via le Authservice
   deconnexion(): void {
     this.authService.seDeconnecter();
-    this.router.navigate(['/']);
+    this.router.navigate(['/']); // Retour à la page de connexion
   }
 }

@@ -14,7 +14,6 @@ import { NotificationService } from '../services/notification/notification.servi
 export class ConnexionComponent {
   username: string = '';
   password: string = '';
-  authReussie: any;
   loading: boolean = false;
   tempsDebutExecution: number = 0;
 
@@ -26,16 +25,13 @@ export class ConnexionComponent {
   ) { }
 
 
+  // Défini que dés lorsque l'utilisateur arrive sur la page de connexion, alors il est déconnecté et ne peux plus accéder aux autres pages
   ngOnInit() {
     this.stateService.setUtilisateurConnecte(false);
   }
   onSubmit(): void {
-    // Utilisez la nouvelle méthode seConnecter qui renvoie un boolean
-    // Enregistrez le temps de début
     this.loading = true;
-
-    this.authReussie = this.authService.seConnecter(this.username, this.password);
-
+    
     this.authService.seConnecter(this.username, this.password)
       .subscribe(
         (connexionReussie) => {
@@ -46,7 +42,6 @@ export class ConnexionComponent {
             this.loading = false;
             this.router.navigate(['/form']);
           } else {
-
             // Gérer l'échec de la connexion ici
             this.loading = false;
             console.log('Échec de la connexion. Veuillez vérifier vos informations.');

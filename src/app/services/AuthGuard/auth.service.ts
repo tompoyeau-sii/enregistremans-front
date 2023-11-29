@@ -1,4 +1,7 @@
-// auth.service.ts
+/**
+ * AuthService - Service d'authentification Angular
+ * Ce service gère les opérations d'authentification, telles que la connexion, la déconnexion et la vérification de l'état de connexion.
+ */
 
 import { Injectable } from '@angular/core';
 import { StateService } from '../state/state.service';
@@ -11,8 +14,20 @@ import { ConfigService } from '../config/config.service';
     providedIn: 'root',
 })
 export class AuthService {
+    /**
+     * Constructeur du service AuthService.
+     * @param http - Service HTTP permettant les requêtes réseau.
+     * @param stateService - Service de gestion de l'état de l'application.
+     * @param config - Service de configuration permettant d'accéder à l'URL de l'API.
+     */
     constructor(private http: HttpClient, private stateService: StateService, private config: ConfigService) { }
 
+    /**
+     * Effectue une tentative de connexion avec les informations fournies.
+     * @param nomUtilisateur - Nom d'utilisateur.
+     * @param motDePasse - Mot de passe.
+     * @returns Observable<boolean> - Observable indiquant si la connexion a réussi (true) ou échoué (false).
+     */
     seConnecter(nomUtilisateur: string, motDePasse: string): Observable<boolean> {
         const credentials = { username: nomUtilisateur, password: motDePasse };
 
@@ -36,10 +51,17 @@ export class AuthService {
             );
     }
 
+    /**
+     * Vérifie si l'utilisateur est actuellement connecté.
+     * @returns boolean - True si l'utilisateur est connecté, sinon False.
+     */
     estConnecte(): boolean {
         return this.stateService.utilisateurConnecteSubject.value;
     }
 
+    /**
+     * Déconnecte l'utilisateur en mettant à jour l'état de connexion.
+     */
     seDeconnecter(): void {
         this.stateService.setUtilisateurConnecte(false);
     }

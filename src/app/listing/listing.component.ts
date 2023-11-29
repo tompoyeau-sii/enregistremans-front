@@ -1,9 +1,11 @@
+// Importation des modules nécessaires depuis Angular et d'autres bibliothèques tierces
 import { Component } from '@angular/core';
 import { RegistersService } from '../services/registers/registers.service';
 import { ManagerService } from '../services/manager/manager.service';
 import { parseISO, format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 
+// Définition des interfaces pour décrire la structure des données utilisées dans le composant
 interface Register {
   id: number;
   firstname: string;
@@ -24,23 +26,23 @@ interface Manager {
   active: boolean;
 }
 
+// Définition du composant Angular
 @Component({
   selector: 'app-listing',
   templateUrl: './listing.component.html',
   styleUrls: ['./listing.component.scss']
 })
-
 export class ListingComponent {
-  constructor(private registersService: RegistersService, private managersService: ManagerService) { }
+  // Déclaration des variables membres du composant
+  loading: boolean = true; // Indique si les données sont en cours de chargement
+  registers: any[] = []; // Tableau des enregistrements
+  managers: any[] = []; // Tableau des gestionnaires
+  selectedRegister: any = null; // Enregistrement sélectionné
+  visible: boolean = false; // Indique si la boîte de dialogue est visible
 
-  loading: boolean = true;
-  registers: any[] = [];
-  managers: any[] = [];
-  selectedRegister: any = null;
-  visible: boolean = false;
+  filteredRegisters: Register[] = []; // Tableau des enregistrements filtrés
 
-  filteredRegisters: Register[] = [];
-
+  // Objet de filtre pour les propriétés spécifiques
   filter: any = {
     fullname: null,
     managerName: null,
@@ -48,42 +50,53 @@ export class ListingComponent {
     startedAt: null
   };
 
+  // Liste des raisons possibles
   reasons = [
     { label: 'Entretien' },
     { label: 'Visite' },
     { label: 'Affaire' }
   ];
-  
 
+  // Constructeur du composant
+  constructor(private registersService: RegistersService, private managersService: ManagerService) { }
 
+  // Méthode pour afficher la boîte de dialogue avec un enregistrement spécifique
   showDialog(register: any) {
     this.selectedRegister = register;
     this.visible = true;
   }
 
+  // Méthode pour formater une date en utilisant la bibliothèque date-fns
   formatDate(date: Date): string {
     return format(date, 'dd MMMM yyyy HH:mm', { locale: fr });
   }
 
+  // Méthode appelée lors de l'initialisation du composant
   ngOnInit() {
+    // Récupération des gestionnaires depuis le service dédié
     this.managersService.getManagers().subscribe((data: Manager[]) => {
-      this.managers = data.map(entry => ({
-        ...entry,
-      }))
-    })
+      this.managers = data.map(entry => ({ ...entry }));
+    });
+
+    // Récupération des enregistrements depuis le service dédié
     this.registersService.getRegisters().subscribe((data: Register[]) => {
+      // Transformation des données avant leur utilisation dans le composant
       this.registers = data.map(entry => ({
         ...entry,
         startedAt: format(parseISO(entry.startedAt), 'dd MMMM yyyy H\'h\'mm', { locale: fr }),
         managerName: this.getManagerName(entry.manager, entry.otherManager)
       }));
-      this.filteredRegisters = [...this.registers]; // Initialisation des données filtrées
-      console.log(this.registers)
+
+      // Initialisation des données filtrées avec toutes les données disponibles
+      this.filteredRegisters = [...this.registers];
+      console.log(this.registers);
+
+      // Indique que le chargement est terminé
       this.loading = false;
     });
-    
   }
 
+  // Méthode pour obtenir le nom complet du gestionnaire, en prenant en compte différentes situations
   getManagerName(manager: Manager | number | null, otherManager: string | null): string {
     if (!manager) {
       // Si le manager est null, utilisez otherManager
@@ -100,19 +113,19 @@ export class ListingComponent {
     return manager.fullname;
   }
 
+  // Méthode pour appliquer les filtres définis par l'utilisateur
   applyFilters() {
     // Appliquez le filtre directement sur la liste filteredRegisters
     this.filteredRegisters = this.registers.filter(register => {
       return Object.keys(this.filter).every(key => {
         const value = this.filter[key];
 
-        // Si le champ est fullname, combinez prénom et nom de famille et comparez avec filter.fullname
+        // Différentes conditions de filtrage en fonction de la clé
         if (key === 'fullname') {
           const fullname = (register.firstname + ' ' + register.lastname).toLowerCase();
           return value === null || fullname.includes(value.toString().toLowerCase());
         }
 
-        // Si le champ est managerName, comparez avec le fullname du manager
         if (key === 'managerName') {
           const managerFullname = this.getManagerFullname(register.manager);
           return !value || managerFullname.includes(value.fullname);
@@ -123,8 +136,8 @@ export class ListingComponent {
         }
 
         if (key === 'startedAt') {
-          if(value) {
-            const date = format(value, 'dd MMMM yyyy', { locale: fr })
+          if (value) {
+            const date = format(value, 'dd MMMM yyyy', { locale: fr });
             return register.startedAt.includes(date);
           }
         }
@@ -134,26 +147,23 @@ export class ListingComponent {
     });
   }
 
+  // Méthode pour obtenir le nom complet du gestionnaire, en prenant en compte différentes situations
   getManagerFullname(manager: Manager | number | null): string {
     if (manager === null || typeof manager === 'number') {
-      // Gérer les cas où manager est null ou un nombre
       const matchingManager = this.managers.find(m => m.id === (manager as number));
       return matchingManager ? matchingManager.fullname : "N/A";
     }
 
-    // Cas où manager est déjà un objet Manager
     return manager.fullname;
   }
 
+  // Méthode pour réinitialiser les filtres en remettant la liste à sa valeur d'origine
   resetFilters() {
-    // Réinitialisez les filtres en remettant la liste à sa valeur d'origine
-    this.filter.fullname = null
-    this.filter.managerName = null
-    this.filter.reason = null
-    this.filter.startedAt = null
+    this.filter.fullname = null;
+    this.filter.managerName = null;
+    this.filter.reason = null;
+    this.filter.startedAt = null;
 
     this.filteredRegisters = [...this.registers];
   }
-
 }
-

@@ -1,4 +1,4 @@
-// config.service.ts
+// Service permettant de définir l'adresse de l'api
 import { Injectable } from '@angular/core';
 
 @Injectable({

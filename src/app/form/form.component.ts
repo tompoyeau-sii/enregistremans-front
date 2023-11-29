@@ -1,3 +1,4 @@
+// Importation des modules nécessaires depuis Angular
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { NotificationService } from '../services/notification/notification.service';
@@ -6,16 +7,25 @@ import { ManagerService } from '../services/manager/manager.service';
 import { format } from 'date-fns';
 import { ConfigService } from '../services/config/config.service';
 
+// Définition du composant Angular
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
 })
-
-export class FormComponent implements OnInit{
+export class FormComponent implements OnInit {
   otherManagerControl;
   otherReasonControl;
-  constructor(private formBuilder: FormBuilder, private notificationService: NotificationService, private http: HttpClient, private managerService: ManagerService, private config: ConfigService) {
+
+  // Initialisation du formulaire avec FormBuilder
+  constructor(
+    private formBuilder: FormBuilder,
+    private notificationService: NotificationService,
+    private http: HttpClient,
+    private managerService: ManagerService,
+    private config: ConfigService
+  ) {
+    // Définition des champs du formulaire avec les validateurs nécessaires
     this.userForm = this.formBuilder.group({
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
@@ -29,44 +39,49 @@ export class FormComponent implements OnInit{
       estimateTime: ['', [Validators.required]],
       startedAt: ['', [Validators.required]],
     });
-    this.otherManagerControl = this.userForm.get('otherManager') as FormControl; // Utilisation de FormControl
-    this.otherReasonControl = this.userForm.get('otherReason') as FormControl; // Utilisation de FormControl
+
+    // Initialisation des contrôles pour les champs optionnels
+    this.otherManagerControl = this.userForm.get('otherManager') as FormControl;
+    this.otherReasonControl = this.userForm.get('otherReason') as FormControl;
   }
 
-  managers: any[] = []; 
-
+  // Initialisation des listes de choix
+  managers: any[] = [];
   reasons = [
     { label: 'Entretien' },
     { label: 'Visite' },
     { label: 'Affaire' },
-    { label: 'Autre' }
-
+    { label: 'Autre' },
   ];
   estimateTimes = [
     { label: '30 minutes' },
     { label: '1 heure' },
     { label: '1/2 journée' },
-    { label: '1 journée' }
-
+    { label: '1 journée' },
   ];
 
+  // Déclaration du formulaire
   userForm: FormGroup;
 
+  // Variables de gestion de l'interface utilisateur
   selectedOption: any;
   showOtherManagerField: boolean = false;
   showOtherReasonField: boolean = false;
   loading: boolean = false;
 
-
-  ngOnInit() {    
+  // Méthode appelée lors de l'initialisation du composant
+  ngOnInit() {
+    // Récupération des gestionnaires actifs depuis le service
     this.managerService.getActiveManagers().subscribe(data => {
-      console.log(data)
+      console.log(data);
       this.managers = data;
-      this.managers.push({fullname : 'Autre'})
+      // Ajout de l'option "Autre" aux gestionnaires
+      this.managers.push({ fullname: 'Autre' });
     });
-    console.log(this.managers)
+    console.log(this.managers);
   }
 
+  // Méthode appelée lors de la sélection d'une option de gestionnaire
   onManagerOptionSelect(option: any) {
     this.selectedOption = option.value.fullname;
     const otherManagerControl = this.userForm.get('otherManager')!;
@@ -83,6 +98,7 @@ export class FormComponent implements OnInit{
     }
   }
 
+  // Méthode appelée lors de la sélection d'une option de raison
   onReasonOptionSelect(option: any) {
     this.selectedOption = option.value.label;
     const otherReasonControl = this.userForm.get('otherReason')!;
@@ -99,20 +115,27 @@ export class FormComponent implements OnInit{
     }
   }
 
+  // Vérifie si un champ du formulaire est invalide
   isFieldInvalid(fieldName: string): boolean {
     const control = this.userForm.get(fieldName);
     return !!control && control.invalid && control.touched;
   }
 
+  // Méthode appelée lors de la soumission du formulaire
   onSubmit() {
-    
+    // Marque tous les champs du formulaire comme "touchés"
     this.userForm.markAllAsTouched();
+
+    // Vérifie la validité du formulaire
     if (this.userForm.valid) {
       const formData = this.userForm.value;
 
+      // Remplace la raison par "Autre" si le champ "otherReason" est renseigné
       if (formData.otherReason) {
         formData.reason = formData.otherReason;
       }
+
+      // Réinitialise le gestionnaire si le champ "otherManager" est renseigné
       if (formData.otherManager) {
         formData.manager = null;
       }
@@ -121,30 +144,39 @@ export class FormComponent implements OnInit{
       if (typeof formData.startedAt != 'string') {
         formData.startedAt = format(formData.startedAt, "yyyy-MM-dd'T'HH:mm:ss.SSSX");
       }
+
+      // Convertit la raison en libellé si elle est de type objet
       if (typeof formData.reason != 'string') {
         formData.reason = formData.reason.label;
       }
+
+      // Convertit la durée estimée en libellé
       formData.estimateTime = formData.estimateTime.label;
 
+      // Active l'indicateur de chargement
       this.loading = true;
-      // Effectuer la requête POST à l'API
+
+      // Effectue la requête POST à l'API
       this.http.post(`${this.config.apiUrl}Registers`, formData).subscribe(
         (response) => {
+          // Désactive l'indicateur de chargement
           this.loading = false;
+          // Affiche une notification de succès
           this.notificationService.showSuccess('Enregistrement réussi', '<strong>Contenu HTML sécurisé</strong>');
-
-          // Réinitialiser les valeurs du formulaire
+          // Réinitialise les valeurs du formulaire
           this.userForm.reset();
         },
         (error) => {
+          // Désactive l'indicateur de chargement
           this.loading = false;
+          // Affiche une notification d'erreur
           console.error('Erreur lors de l\'enregistrement :', error);
           this.notificationService.showError('Une erreur est survenue lors de l\'enregistrement.', '<strong>Contenu HTML sécurisé</strong>');
         }
       );
     } else {
+      // Affiche une notification d'erreur si le formulaire n'est pas valide
       this.notificationService.showError('Veuillez compléter tous les champs obligatoires (*)', '<strong>Contenu HTML sécurisé</strong>');
     }
   }
-
 }
