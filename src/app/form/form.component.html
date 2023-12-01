@@ -5,7 +5,7 @@
             <h1 class="gradient-title">Bienvenue chez SII Le Mans</h1>
         </div>
 
-            <h3 class="gradient-title">Visiteur</h3>
+        <h3 class="gradient-title">Visiteur</h3>
         <div class="formgrid grid">
             <div class="field col-12 md:col-6">
                 <input autocomplete="off" placeholder="Prénom*" pInputText id="firstname"
@@ -28,6 +28,11 @@
                 <input autocomplete="off" pInputText id="company"
                     [ngClass]="{ 'invalid-field': isFieldInvalid('company') }" placeholder="Organisation*"
                     formControlName="company" />
+            </div>
+            <div class="field col-12 md:col-6">
+                <p-dropdown [options]="badges" optionLabel="label" inputId="float-label" id="badge"
+                    [ngClass]="{ 'invalid-field': isFieldInvalid('badge') }" placeholder="N° de badge*"
+                    formControlName="badge" />
             </div>
         </div>
 
@@ -72,9 +77,11 @@
 
         </div>
 
-
-        <div>
+        
+        <div class="center">
             <p-button [loading]="loading" type="submit" label="Welcome"></p-button>
+            <p-checkbox inputId="here" class="mr-2 ml-2" formControlName="here" [binary]="true"></p-checkbox>
+            <label for="here">Présent</label>
         </div>
     </form>
 </div>

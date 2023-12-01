@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
     providedIn: 'root',
 })
 export class ConfigService {
-    // apiUrl: string = 'https://localhost:8080/';
+    // apiUrl: string = 'http://localhost:8080/';
     apiUrl: string = 'https://register-7y7k.onrender.com/';
 
 }

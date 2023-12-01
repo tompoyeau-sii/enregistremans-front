@@ -25,6 +25,7 @@
                 <th scope="col">Manager</th>
                 <th scope="col">Motif de visite</th>
                 <th scope="col">Date d'arrivée</th>
+                <th scope="col">Présent</th>
                 <th scope="col"></th>
             </tr>
         </ng-template>
@@ -34,6 +35,9 @@
                 <td>{{ register.managerName }}</td>
                 <td>{{ register.reason }}</td>
                 <td>{{ register.startedAt }}</td>
+                <td>
+                    <p-checkbox [(ngModel)]="register.here" [binary]="true" inputId="binary" (onChange)="onCheckboxChange(register)"></p-checkbox>
+                </td>
                 <td>
                     <p-button (click)="showDialog(register)" icon="pi pi-eye" [link]="true"></p-button>
                 </td>
@@ -58,6 +62,9 @@
         </p>
         <p class="m-1">
             <span style="font-weight: bold;">Organisation : </span>{{ selectedRegister.company }}
+        </p>
+        <p class="m-1">
+            <span style="font-weight: bold;">N° de badge : </span>{{ selectedRegister.badge }}
         </p>
         <p class="m-1">
             <span style="font-weight: bold;">Manager : </span>{{ selectedRegister.managerName }}

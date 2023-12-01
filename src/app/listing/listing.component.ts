@@ -13,11 +13,14 @@ interface Register {
   mail: string;
   phone: string;
   company: string;
+  badge: string;
   reason: string;
   manager: Manager | number | null;
   estimateTime: string;
   startedAt: string;
   otherManager: string | null;
+  here: boolean;
+
 }
 
 interface Manager {
@@ -39,6 +42,7 @@ export class ListingComponent {
   managers: any[] = []; // Tableau des gestionnaires
   selectedRegister: any = null; // Enregistrement sélectionné
   visible: boolean = false; // Indique si la boîte de dialogue est visible
+  checked: boolean = false;
 
   filteredRegisters: Register[] = []; // Tableau des enregistrements filtrés
 
@@ -47,7 +51,8 @@ export class ListingComponent {
     fullname: null,
     managerName: null,
     reason: null,
-    startedAt: null
+    startedAt: null,
+    
   };
 
   // Liste des raisons possibles
@@ -85,6 +90,7 @@ export class ListingComponent {
         ...entry,
         startedAt: format(parseISO(entry.startedAt), 'dd MMMM yyyy H\'h\'mm', { locale: fr }),
         managerName: this.getManagerName(entry.manager, entry.otherManager)
+
       }));
 
       // Initialisation des données filtrées avec toutes les données disponibles
@@ -94,6 +100,21 @@ export class ListingComponent {
       // Indique que le chargement est terminé
       this.loading = false;
     });
+  }
+
+  onCheckboxChange(register: Register) {
+    // Call the service method to update the registration status
+    console.log(register.here)
+    this.registersService.updateRegister(register.id, register.here).subscribe(
+      (response) => {
+        // Handle the response if needed
+        console.log('Registration status updated successfully', response);
+      },
+      (error) => {
+        // Handle the error if needed
+        console.error('Error updating registration status', error);
+      }
+    );
   }
 
   // Méthode pour obtenir le nom complet du gestionnaire, en prenant en compte différentes situations

@@ -1,7 +1,7 @@
 <app-fullscreen-button></app-fullscreen-button>
 <div class="center">
     <p-card header="Connexion" [style]="{ width: '360px' }">
-        <ng-template  pTemplate="header">
+        <ng-template pTemplate="header">
             <img class="pt-4" alt="VIP by SII" src="assets/img/logo.png" />
         </ng-template>
         <form (ngSubmit)="onSubmit()" #form="ngForm">
@@ -18,10 +18,22 @@
                     [toggleMask]="true" [feedback]="false"></p-password>
             </div>
 
-            <p-button class="m-2" [loading]="loading" label="Me connecter" type="submit" [disabled]="!form.valid" icon="pi pi-unlock" iconPos="right"></p-button>
+            <p-button class="m-2" [loading]="loading" label="Me connecter" type="submit" [disabled]="!form.valid"
+                icon="pi pi-unlock" iconPos="right"></p-button>
+            <p-button class="m-2" (click)="op.toggle($event)" icon="pi pi-info-circle" iconPos="right"
+                tooltipEvent="onClick" [text]="true" pTooltip=""></p-button>
 
         </form>
     </p-card>
-    
+
+    <p-overlayPanel #op [style]="{'max-width.px': 360}">
+        <ng-template pTemplate="content">
+            Il peut arriver que le serveur redémarre. La requête de connexion peut alors prendre du temps à s'exécuter. Si
+            cela fait plus de 5 minutes, contactez un administrateur.
+        </ng-template>
+    </p-overlayPanel>
+
+
+
     <p-toast position="bottom-center"></p-toast>
 </div>

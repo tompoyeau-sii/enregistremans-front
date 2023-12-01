@@ -32,12 +32,14 @@ export class FormComponent implements OnInit {
       mail: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$')]],
       phone: '', // Champ optionnel
       company: ['', [Validators.required]],
+      badge: ['', [Validators.required]],
       manager: ['', [Validators.required]],
       otherManager: '', // Champ optionnel
       reason: ['', [Validators.required]],
       otherReason: '', // Champ optionnel
       estimateTime: ['', [Validators.required]],
       startedAt: ['', [Validators.required]],
+      here:false,
     });
 
     // Initialisation des contrôles pour les champs optionnels
@@ -59,6 +61,28 @@ export class FormComponent implements OnInit {
     { label: '1/2 journée' },
     { label: '1 journée' },
   ];
+  badges = [
+    { label: 'Vistieur 1' },
+    { label: 'Vistieur 2' },
+    { label: 'Vistieur 3' },
+    { label: 'Vistieur 4' },
+    { label: 'Vistieur 5' },
+    { label: 'Vistieur 6' },
+    { label: 'Vistieur 7' },
+    { label: 'Vistieur 8' },
+    { label: 'Vistieur 9' },
+    { label: 'Vistieur 10' },
+    { label: 'Vistieur 11' },
+    { label: 'Vistieur 12' },
+    { label: 'Vistieur 13' },
+    { label: 'Vistieur 14' },
+    { label: 'Vistieur 15' },
+    { label: 'Vistieur 16' },
+    { label: 'Vistieur 17' },
+    { label: 'Vistieur 18' },
+    { label: 'Vistieur 19' },
+    { label: 'Vistieur 20' }
+  ];
 
   // Déclaration du formulaire
   userForm: FormGroup;
@@ -68,6 +92,7 @@ export class FormComponent implements OnInit {
   showOtherManagerField: boolean = false;
   showOtherReasonField: boolean = false;
   loading: boolean = false;
+  filteredBadges: any[] = [];
 
   // Méthode appelée lors de l'initialisation du composant
   ngOnInit() {
@@ -148,6 +173,11 @@ export class FormComponent implements OnInit {
       // Convertit la raison en libellé si elle est de type objet
       if (typeof formData.reason != 'string') {
         formData.reason = formData.reason.label;
+      }
+
+      // Convertit la raison en libellé si elle est de type objet
+      if (typeof formData.badge != 'string') {
+        formData.badge = formData.badge.label;
       }
 
       // Convertit la durée estimée en libellé

@@ -13,4 +13,10 @@ export class RegistersService {
   getRegisters(): Observable<any> {
     return this.http.get(`${this.config.apiUrl}Registers`);
   }
+  updateRegister(registerId: number, registerHere: boolean) {
+    // Envoyer une requête PUT à l'API pour mettre à jour le manager
+    const updateUrl = `${this.config.apiUrl}Register/${registerId}`;
+    const managerData = { here: registerHere };
+    return this.http.put(updateUrl, managerData);
+  }
 }

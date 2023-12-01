@@ -28,6 +28,10 @@ import { PasswordModule } from 'primeng/password';
 import { CardModule } from 'primeng/card';
 import { FullscreenButtonComponent } from './fullscreen-button/fullscreen-button.component';
 import { SkeletonModule } from 'primeng/skeleton';
+import { TooltipModule } from 'primeng/tooltip';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { CheckboxModule } from 'primeng/checkbox';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 
 @NgModule({
   declarations: [
@@ -40,7 +44,11 @@ import { SkeletonModule } from 'primeng/skeleton';
     FullscreenButtonComponent,
   ],
   imports: [
+    OverlayPanelModule,
+    CheckboxModule,
+    AutoCompleteModule,
     CardModule,
+    TooltipModule,
     SkeletonModule,
     HttpClientModule,
     PasswordModule,
