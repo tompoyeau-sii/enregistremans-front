@@ -153,7 +153,7 @@ export class ListingComponent {
         }
 
         if (key === 'reason') {
-          return !value || register.reason.includes(value.label);
+          return !value || (register.reason && register.reason.includes(value.label));
         }
 
         if (key === 'startedAt') {
