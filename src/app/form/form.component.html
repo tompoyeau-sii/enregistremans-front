@@ -21,8 +21,8 @@
                     [ngClass]="{ 'invalid-field': isFieldInvalid('mail') }" id="mail" formControlName="mail" />
             </div>
             <div class="field col-12 md:col-6">
-                <p-inputMask mask="99 99 99 99 99" id="phone" formControlName="phone"
-                    placeholder="Téléphone"></p-inputMask>
+                <p-inputMask mask="99 99 99 99 99" id="phone" [ngClass]="{ 'invalid-field': isFieldInvalid('phone') }"
+                    formControlName="phone" placeholder="Téléphone*"></p-inputMask>
             </div>
             <div class="field col-12 md:col-6">
                 <input autocomplete="off" pInputText id="company"
@@ -77,7 +77,7 @@
 
         </div>
 
-        
+
         <div class="center">
             <p-button [loading]="loading" type="submit" label="Welcome"></p-button>
             <p-checkbox inputId="here" class="mr-2 ml-2" formControlName="here" [binary]="true"></p-checkbox>

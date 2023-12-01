@@ -29,8 +29,8 @@ export class FormComponent implements OnInit {
     this.userForm = this.formBuilder.group({
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
-      mail: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$')]],
-      phone: '', // Champ optionnel
+      mail: ['', [Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$')]],
+      phone: [''],// Champ optionnel
       company: ['', [Validators.required]],
       badge: ['', [Validators.required]],
       manager: ['', [Validators.required]],
@@ -146,6 +146,7 @@ export class FormComponent implements OnInit {
     return !!control && control.invalid && control.touched;
   }
 
+
   // Méthode appelée lors de la soumission du formulaire
   onSubmit() {
     // Marque tous les champs du formulaire comme "touchés"
@@ -178,6 +179,11 @@ export class FormComponent implements OnInit {
       // Convertit la raison en libellé si elle est de type objet
       if (typeof formData.badge != 'string') {
         formData.badge = formData.badge.label;
+      }
+
+      if (!formData.mail && !formData.phone) {
+        this.notificationService.showError('Veuillez fournir soit un email soit un numéro de téléphone', '<strong>Contenu HTML sécurisé</strong>');
+        return;
       }
 
       // Convertit la durée estimée en libellé

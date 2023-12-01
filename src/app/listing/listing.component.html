@@ -51,8 +51,11 @@
             <span style="font-weight: bold;">Visiteur : </span>{{ selectedRegister.firstname + " " +
             selectedRegister.lastname }}
         </p>
-        <p class="m-1">
+        <p *ngIf="selectedRegister.mail != ''" class="m-1">
             <span style="font-weight: bold;">Email : </span>{{ selectedRegister.mail }}
+        </p>
+        <p *ngIf="selectedRegister.mail == ''" class="m-1">
+            <span style="font-weight: bold;">Email : </span>Non communiqué
         </p>
         <p *ngIf="selectedRegister.phone != ''" class="m-1">
             <span style="font-weight: bold;">Téléphone : </span>{{ selectedRegister.phone }}
